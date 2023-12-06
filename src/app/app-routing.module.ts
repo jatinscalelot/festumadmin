@@ -8,8 +8,9 @@ import { NoAuthGuard } from './auth/auth-guard/no-auth.guard';
 import { EventComponent } from './content/event/event.component';
 
 const routes: Routes = [
-  { path: 'log-in',component:LogInComponent,canActivate: [NoAuthGuard], },
-  { path: '', redirectTo: 'log-in', pathMatch: 'full' },
+  { path: '',component:LogInComponent,canActivate: [NoAuthGuard], },
+  //{ path: 'log-in',component:LogInComponent,canActivate: [NoAuthGuard], },
+  //{ path: '', redirectTo: 'log-in', pathMatch: 'full' },
   {
     path:'',
     canActivate: [AuthGuard],

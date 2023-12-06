@@ -37,7 +37,7 @@ export class AuthService {
     localStorage.clear();
     this.toatr.clear();
     this.toatr.error("Unauthorized Access.", "Oops!");
-    this.router.navigate(['/log-in']);
+    this.router.navigate(['']);
     return false;
   }
 
@@ -79,7 +79,7 @@ export class AuthService {
       localStorage.clear();
       this.toatr.clear();
       this.toatr.error("Unauthorized Access.", "Oops!");
-      this.router.navigate(['/log-in']);
+      this.router.navigate(['']);
     }
   }
 }

@@ -104,7 +104,7 @@ export class ContentComponent implements OnInit {
   logout(): void {
     localStorage.removeItem('accessToken');
     localStorage.clear();
-    this.router.navigate(['log-in']);
+    this.router.navigate(['']);
     this.toastr.success('Logged Out Successfully!', 'Success');
     // this.router.events.subscribe((event: any) => {
     //   if (event instanceof NavigationEnd) {

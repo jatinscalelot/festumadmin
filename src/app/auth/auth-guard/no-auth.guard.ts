@@ -28,8 +28,8 @@ export class NoAuthGuard implements CanActivate {
       this._router.navigate(['/dashboard']);
       return false;
     } else {
-      if (!state.url || state.url == '/') {
-        this._router.navigate(['log-in']);
+      if (!state.url || state.url == '') {
+        this._router.navigate(['']);
       }
       return true;
     }
