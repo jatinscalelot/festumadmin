@@ -1,0 +1,105 @@
+<div class="max-w-4xl w-full rounded-[50px] overflow-hidden bg-white p-9">
+  <div class="flex items-center justify-between">
+    <span class="block text-32 font-semibold">{{data[1].btnName}} Notification Coupons</span>
+    <span class="block icon-add rotate-45 text-3xl font-extrabold cursor-pointer" (click)="closeDialog()"></span>
+  </div>
+  <form class="flex flex-wrap mt-9 -mx-2.5" #notificationCouponsNgForm="ngForm" [formGroup]="addEditNotificationCoupons" (ngSubmit)="OnSubmitAction()">
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="code" class="block text-sm font-medium text-gray_2">Code</label>
+      <mat-form-field class="example-full-width w-full mt-2" appearance="outline" color="primary">
+        <input type="text" matInput [formControlName]="'code'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Code">
+        <mat-error class="error-message"
+        *ngIf="addEditNotificationCoupons.get('code').hasError('required') && (addEditNotificationCoupons.get('code').dirty || addEditNotificationCoupons.get('code').touched)">
+        Code is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="product_status" class="block text-sm font-medium text-gray_2">Product Status</label>
+      <div class="flex items-center mt-[18px]">
+        <mat-slide-toggle class="block custom-slide-toggle" formControlName="status">
+          {{addEditNotificationCoupons.get('status').value === true ? 'Active' : 'Disabled'}}
+        </mat-slide-toggle>
+      </div>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="amount" class="block text-sm font-medium text-gray_2">Amount</label>
+      <mat-form-field class="example-full-width w-full mt-2" appearance="outline" color="primary">
+        <input type="text" matInput [formControlName]="'amount'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Amount">
+        <mat-error class="error-message"
+        *ngIf="addEditNotificationCoupons.get('amount').hasError('required') && (addEditNotificationCoupons.get('amount').dirty || addEditNotificationCoupons.get('amount').touched) ">
+        Amount is required.</mat-error>
+        <mat-error *ngIf="addEditNotificationCoupons.get('amount').hasError('pattern')">
+          Please enter amount in digit.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="percentage" class="block text-sm font-medium text-gray_2">Percentage</label>
+      <mat-form-field class="example-full-width w-full mt-2" appearance="outline" color="primary">
+        <input type="text" matInput [formControlName]="'percentage'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Percentage">
+        <mat-error class="error-message"
+        *ngIf="addEditNotificationCoupons.get('percentage').hasError('required') && (addEditNotificationCoupons.get('percentage').dirty || addEditNotificationCoupons.get('percentage').touched)">
+        Percentage is required.</mat-error>
+        <mat-error *ngIf="addEditNotificationCoupons.get('percentage').hasError('pattern')">
+          Please enter Percentage in digit.
+        </mat-error>
+        <mat-error *ngIf="addEditNotificationCoupons.get('percentage').hasError('min')">
+          Minimum required Percentage is 0.
+        </mat-error>
+        <mat-error *ngIf="addEditNotificationCoupons.get('percentage').hasError('max')">
+          Maximum required Percentage is 100.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="expiry_date" class="block text-sm font-medium text-gray_2">Expiry Date</label>
+      <mat-form-field class="example-full-width w-full mt-2" appearance="outline" color="primary">
+        <input matInput
+        [matDatepicker]="picker" [value]="date" (click)="picker.open()"
+        placeholder="MM/DD/YYYY" [formControlName]="'expiry_date'"
+        (dateChange)="setDate($event.value)">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error class="error-message"
+        *ngIf="addEditNotificationCoupons.get('expiry_date').hasError('invalidExpiryDate')">
+        Invalid Expiry date</mat-error>
+        <mat-error class="error-message"
+        *ngIf="addEditNotificationCoupons.get('expiry_date').hasError('required') && (addEditNotificationCoupons.get('expiry_date').dirty || addEditNotificationCoupons.get('expiry_date').touched) && addEditNotificationCoupons.get('expiry_date').hasError('invalidDate')">
+        Expiry Date is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="expiry_time" class="block text-sm font-medium text-gray_2">Expiry TIme</label>
+      <mat-form-field class="example-full-width w-full mt-2" appearance="outline" color="primary">
+        <input type="time" matInput [formControlName]="'expiry_time'" class="font-medium text-gray_3 placeholder:text-gray_3 time-picker" placeholder="Expiry TIme">
+        <mat-error class="error-message"
+        *ngIf="addEditNotificationCoupons.get('expiry_time').hasError('required') && (addEditNotificationCoupons.get('expiry_time').dirty || addEditNotificationCoupons.get('expiry_time').touched)">
+        Expiry TIme is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-full p-2.5 -mb-4">
+      <label for="limit" class="block text-sm font-medium text-gray_2">Limit</label>
+      <mat-form-field class="example-full-width w-full mt-2" appearance="outline" color="primary">
+        <input type="text" matInput [formControlName]="'limit'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Limit">
+        <mat-error class="error-message"
+        *ngIf="addEditNotificationCoupons.get('limit').hasError('required') && (addEditNotificationCoupons.get('limit').dirty || addEditNotificationCoupons.get('limit').touched)">
+        Limit is required.</mat-error>
+        <mat-error *ngIf="addEditNotificationCoupons.get('limit').hasError('pattern')">
+          Please enter limit in digit.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-full p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Description</label>
+      <mat-form-field class="example-full-width w-full mt-2" appearance="outline" color="primary">
+        <textarea matInput name="questionText" [formControlName]="'description'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Description"></textarea>
+        <mat-error class="error-message"
+        *ngIf="addEditNotificationCoupons.get('description').hasError('required') && (addEditNotificationCoupons.get('description').dirty || addEditNotificationCoupons.get('description').touched)">
+        Terms and Condition is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="flex items-center justify-center mt-4 p-2.5 mx-auto">
+      <button type="button" mat-flat-button class="block text-xs sm:text-sm font-medium whitespace-nowrap text-white hover:text-primary bg-primary hover:bg-white anim border border-primary cursor-pointer rounded-lg py-2.5 sm:py-2.5 2xl:py-3.5 px-5 md:px-8 lg:px-10 xl:px-12" (click)="OnSubmitAction()">{{data[1].btnName}} Notification Coupons</button>
+    </div>
+  </form>
+</div>

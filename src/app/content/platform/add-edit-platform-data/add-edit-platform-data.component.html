@@ -1,0 +1,70 @@
+<div class="max-w-4xl w-full rounded-[50px] bg-white p-6">
+  <div class="flex items-center justify-between p-3">
+    <span class="block text-32 font-semibold">{{data[1].btnName}} Platform Data</span>
+    <span class="block icon-add rotate-45 text-3xl font-extrabold cursor-pointer" (click)="closePlatformData()"></span>
+  </div>
+  <form class="mt-9" [formGroup]="platformForm" #seatingItemNgForm="ngForm" (ngSubmit)="onSubmitAction()">
+    <div class="w-full flex items-center p-3">
+      <div class="relative flex items-center justify-center w-[116px] h-[116px] rounded-3xl overflow-hidden group">
+        <div class="absolute inset-0 z-30 bg-black/40 hidden" [ngClass]="selectedImage ? 'group-hover:block' : 'hidden'">
+          <div class="flex items-center space-x-3 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-10" *ngIf="selectedImage">
+            <div class="">
+              <input type="file" name="upload_type" id="upload_type" class="hidden" [multiple]="false" [accept]="'image/jpeg, image/png'"(change)="uploadItemImage($event)">
+              <label for="upload_type" class="block cursor-pointer"><span class="icon-camera text-xl text-white"></span></label>
+            </div>
+            <button mat-icon-button (click)="removeAvatar()">
+              <span class="block icon-delete text-white text-xl"></span>
+            </button>
+          </div>
+        </div>
+        <div class="absolute inset-0 flex items-center justify-center z-20" [ngClass]="{'opacity-0' : selectedImage}">
+          <div>
+            <input type="file" name="upload_type" id="upload_type" class="hidden" [multiple]="false" [accept]="'image/jpeg, image/png'" (change)="uploadItemImage($event)">
+            <label for="upload_type" class="block cursor-pointer">
+              <div class="w-fit bg-gray_4 border-2 border-dashed border-gray_2 rounded-3xl py-9 px-10">
+                <span class="icon-camera text-32 text-gray_2"></span>
+              </div>
+            </label>
+          </div>
+        </div>
+        <div class="w-full h-full bg-gray_4 border-2 border-dashed border-primary overflow-hidden rounded-3xl relative z-[1]" *ngIf="selectedImage">
+          <img class="object-cover w-full h-full" [src]="constants.FEBaseImageURL + selectedImage" (error)="imageOnError($event)">
+        </div>
+      </div>
+      <div class="w-[calc(100%-152px)] ml-9">
+        <label for="item_name" class="block text-sm font-medium text-gray_2">Item Name</label>
+        <mat-form-field class="example-full-width w-full mt-2" appearance="outline" color="primary">
+          <input type="text" matInput [formControlName]="'name'" placeholder="Item Name">
+          <mat-error *ngIf="platformForm.get('name').hasError('required') && (platformForm.get('name').dirty || platformForm.get('name').touched)">
+            Item name is required.
+          </mat-error>
+          <mat-error *ngIf="platformForm.get('name').hasError('pattern')">
+            Please enter item name in alphabates.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="flex items-center mt-7 p-2.5">
+      <div class="flex flex-col">
+        <label for="item_name" class="block text-sm font-medium text-gray_2">Product Status</label>
+        <div class="flex items-center mt-[18px]">
+          <mat-slide-toggle class="block custom-slide-toggle" formControlName="status">
+            {{platformForm.get('status').value === true ? 'Active' : 'Disabled'}}
+          </mat-slide-toggle>
+        </div>
+      </div>
+    </div>
+    <div class="w-full p-2.5">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Description</label>
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <textarea matInput name="questionText" [formControlName]="'description'" placeholder="Description..."></textarea>
+        <mat-error class="error-message"
+        *ngIf="platformForm.get('description').hasError('required') && (platformForm.get('description').dirty || platformForm.get('description').touched)">
+        Description is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="flex items-center justify-center mt-4">
+      <button type="button" class="block text-xs sm:text-sm font-medium whitespace-nowrap text-white hover:text-primary bg-primary hover:bg-white anim border border-primary cursor-pointer rounded-lg py-2.5 sm:py-2.5 2xl:py-3.5 px-5 md:px-8 lg:px-10 xl:px-12" (click)="onSubmitAction()">{{data[1].btnName}} Platform Data</button>
+    </div>
+  </form>
+</div>

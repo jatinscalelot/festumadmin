@@ -1,0 +1,53 @@
+.accordion_item .inner_content {
+  @apply block;
+}
+::ng-deep p-rating svg.p-icon.p-rating-icon.p-rating-icon-active{
+  fill: #f5b93f !important;
+}
+::ng-deep p-rating svg.p-rating-icon{
+  fill: #2D3643 !important;
+}
+::ng-deep p-rating svg.p-icon.p-rating-icon.p-rating-icon-active path{
+  fill: inherit !important;
+}
+/* .ng-star-inserted{
+  padding-right: 10px !important;
+} */
+
+::ng-deep .book-ticket .mat-expansion-indicator:after{
+  width: 10px !important;
+  height: 10px !important;
+  top: calc(50% - 7px) !important;
+  left: calc(50% - 5px) !important;
+  /* rotate: 45deg; */
+  border-color: #fff !important;
+}
+::ng-deep .mat-expansion-panel-header {
+  padding: 5px 15px !important;
+}
+
+@media(min-width:1400px){
+  ::ng-deep .mat-expansion-panel-header {
+    padding: 10px 15px !important;
+  }
+}
+
+::ng-deep .mat-expansion-indicator{
+  width: 20px !important;
+  height: 20px !important;
+}
+::ng-deep .mat-expansion-panel-body{
+  padding: 0 !important;
+}
+.book-ticket .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]):hover,
+.book-ticket .mat-expansion-panel-header.mat-expanded:focus,.book-ticket  .mat-expansion-panel-header.mat-expanded:hover{
+  background-color: #3062D4;
+}
+::ng-deep .event_overView mat-tab-header{
+  position: relative;
+  z-index: 99;
+  margin-bottom: -90px !important;
+}
+::ng-deep .p-dropdown-items-wrapper{
+  max-height: 180px !important;
+}

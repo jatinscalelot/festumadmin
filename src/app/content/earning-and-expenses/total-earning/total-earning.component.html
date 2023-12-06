@@ -1,0 +1,214 @@
+<div class="space-y-5 lg:space-y-7 xl:space-y-9">
+  <div class="flex flex-wrap sm:flex-nowrap items-start justify-between">
+    <div class="pr-2">
+      <div class="flex items-center cursor-pointer space-x-3" [routerLink]="'/earning-expenses'">
+        <i class="icon-left_arrow text-2xl text-gray_1"></i>
+        <span class="text-gray_1 font-medium">Back</span>
+      </div>
+      <span class="block text-22 md:text-2xl lg:text-3xl xl:text-32 font-semibold mt-1 sm:mt-2 md:mt-1 xl:mt-2">Total Earning</span>
+      <span class="block text-sm md:text-base text-gray_1 mt-1">Show the total earnings of festum evento!</span>
+    </div>
+    <div class="p-2">
+      <div class="border border-gray_1 cursor-pointer rounded-lg py-2.5 sm:py-2.5 2xl:py-3.5 px-5 lg:px-6 xl:px-8">
+        <div class="flex items-center space-x-2 sm:space-x-2.5 md:space-x-3">
+          <span class="icon-document_upload sm:text-[18px] lg:text-[20px] font-medium"></span>
+          <span class="text-xs sm:text-sm font-medium whitespace-nowrap">Export Data</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-full grid grid-cols-1 x-xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 2xl:gap-5">
+    <div class="w-full user_details border border-gray_5 rounded-xl cursor-pointer space-y-4 p-3.5 md:p-4 lg:p-5" [routerLink]="'user-transaction'" routerLinkActive="selected">
+      <div class="flex items-center justify-between">
+        <span class="block text-sm whitespace-nowrap text-gray_1 pr-1">User Transaction</span>
+        <div class="bg-light_primary rounded-lg">
+          <span class="icon-earnings_and_expense text-sm lg:text-base w-7 md:w-8 lg:w-9 h-7 md:h-8 lg:h-9 flex items-center justify-center text-primary"></span>
+        </div>
+      </div>
+      <div class="w-full">
+        <span class="block text-xl md:text-22 lg:text-2xl xl:text-28 font-bold">100k</span>
+        <div class="flex items-center space-x-2 mt-2">
+          <div class="flex items-center space-x-1 bg-gray_6 rounded-md p-1">
+            <span class="icon-up_arrow text-10 text-persion_green"></span>
+            <span class="block text-xs text-persion_green">16.24 %</span>
+          </div>
+          <div class="flex items-center">
+            <span class="block text-sm text-gray_1">This Month</span>
+            <span class="icon-down_arrow1 text-gray_1"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-full user_details border border-gray_5 rounded-xl cursor-pointer space-y-4 p-3.5 md:p-4 lg:p-5" [routerLink]="'revenue-ads'" routerLinkActive="selected">
+      <div class="flex items-center justify-between">
+        <span class="block text-sm whitespace-nowrap text-gray_1 pr-1">Revenue from Ads</span>
+        <div class="bg-light_primary rounded-lg">
+          <span class="icon-earnings_and_expense text-sm lg:text-base w-7 md:w-8 lg:w-9 h-7 md:h-8 lg:h-9 flex items-center justify-center text-primary"></span>
+        </div>
+      </div>
+      <div class="w-full">
+        <span class="block text-xl md:text-22 lg:text-2xl xl:text-28 font-bold">100k</span>
+        <div class="flex items-center space-x-2 mt-2">
+          <div class="flex items-center space-x-1 bg-gray_6 rounded-md p-1">
+            <span class="icon-up_arrow text-10 text-persion_green"></span>
+            <span class="block text-xs text-persion_green">16.24 %</span>
+          </div>
+          <div class="flex items-center">
+            <span class="block text-sm text-gray_1">This Month</span>
+            <span class="icon-down_arrow1 text-gray_1"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-full user_details border border-gray_5 rounded-xl cursor-pointer space-y-4 p-3.5 md:p-4 lg:p-5" [routerLink]="'gift-coupons'" routerLinkActive="selected">
+      <div class="flex items-center justify-between">
+        <span class="block text-sm whitespace-nowrap text-gray_1 pr-1">Gift coupons</span>
+        <div class="bg-light_primary rounded-lg">
+          <span class="icon-earnings_and_expense text-sm lg:text-base w-7 md:w-8 lg:w-9 h-7 md:h-8 lg:h-9 flex items-center justify-center text-primary"></span>
+        </div>
+      </div>
+      <div class="w-full">
+        <span class="block text-xl md:text-22 lg:text-2xl xl:text-28 font-bold">100k</span>
+        <div class="flex items-center space-x-2 mt-2">
+          <div class="flex items-center space-x-1 bg-gray_6 rounded-md p-1">
+            <span class="icon-up_arrow text-10 text-persion_green"></span>
+            <span class="block text-xs text-persion_green">16.24 %</span>
+          </div>
+          <div class="flex items-center">
+            <span class="block text-sm text-gray_1">This Month</span>
+            <span class="icon-down_arrow1 text-gray_1"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-full user_details border border-gray_5 rounded-xl cursor-pointer space-y-4 p-3.5 md:p-4 lg:p-5" [routerLink]="'promotion'" routerLinkActive="selected">
+      <div class="flex items-center justify-between">
+        <span class="block text-sm whitespace-nowrap text-gray_1 pr-1">Promotion</span>
+        <div class="bg-light_primary rounded-lg">
+          <span class="icon-earnings_and_expense text-sm lg:text-base w-7 md:w-8 lg:w-9 h-7 md:h-8 lg:h-9 flex items-center justify-center text-primary"></span>
+        </div>
+      </div>
+      <div class="w-full">
+        <span class="block text-xl md:text-22 lg:text-2xl xl:text-28 font-bold">100k</span>
+        <div class="flex items-center space-x-2 mt-2">
+          <div class="flex items-center space-x-1 bg-gray_6 rounded-md p-1">
+            <span class="icon-up_arrow text-10 text-persion_green"></span>
+            <span class="block text-xs text-persion_green">16.24 %</span>
+          </div>
+          <div class="flex items-center">
+            <span class="block text-sm text-gray_1">This Month</span>
+            <span class="icon-down_arrow1 text-gray_1"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-full user_details border border-gray_5 rounded-xl cursor-pointer space-y-4 p-3.5 md:p-4 lg:p-5" [routerLink]="'offer-promotion'" routerLinkActive="selected">
+      <div class="flex items-center justify-between">
+        <span class="block text-sm whitespace-nowrap text-gray_1 pr-1">Offer promotions</span>
+        <div class="bg-light_primary rounded-lg">
+          <span class="icon-earnings_and_expense text-sm lg:text-base w-7 md:w-8 lg:w-9 h-7 md:h-8 lg:h-9 flex items-center justify-center text-primary"></span>
+        </div>
+      </div>
+      <div class="w-full">
+        <span class="block text-xl md:text-22 lg:text-2xl xl:text-28 font-bold">100k</span>
+        <div class="flex items-center space-x-2 mt-2">
+          <div class="flex items-center space-x-1 bg-gray_6 rounded-md p-1">
+            <span class="icon-up_arrow text-10 text-persion_green"></span>
+            <span class="block text-xs text-persion_green">16.24 %</span>
+          </div>
+          <div class="flex items-center">
+            <span class="block text-sm text-gray_1">This Month</span>
+            <span class="icon-down_arrow1 text-gray_1"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-full user_details border border-gray_5 rounded-xl cursor-pointer space-y-4 p-3.5 md:p-4 lg:p-5" [routerLink]="'livestream-users'" routerLinkActive="selected">
+      <div class="flex items-center justify-between">
+        <span class="block text-sm whitespace-nowrap text-gray_1 pr-1">Livestream user</span>
+        <div class="bg-light_primary rounded-lg">
+          <span class="icon-earnings_and_expense text-sm lg:text-base w-7 md:w-8 lg:w-9 h-7 md:h-8 lg:h-9 flex items-center justify-center text-primary"></span>
+        </div>
+      </div>
+      <div class="w-full">
+        <span class="block text-xl md:text-22 lg:text-2xl xl:text-28 font-bold">100k</span>
+        <div class="flex items-center space-x-2 mt-2">
+          <div class="flex items-center space-x-1 bg-gray_6 rounded-md p-1">
+            <span class="icon-up_arrow text-10 text-persion_green"></span>
+            <span class="block text-xs text-persion_green">16.24 %</span>
+          </div>
+          <div class="flex items-center">
+            <span class="block text-sm text-gray_1">This Month</span>
+            <span class="icon-down_arrow1 text-gray_1"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-full user_details border border-gray_5 rounded-xl cursor-pointer space-y-4 p-3.5 md:p-4 lg:p-5" [routerLink]="'membership-plans'" routerLinkActive="selected">
+      <div class="flex items-center justify-between">
+        <span class="block text-sm whitespace-nowrap text-gray_1 pr-1">Membership plans</span>
+        <div class="bg-light_primary rounded-lg">
+          <span class="icon-earnings_and_expense text-sm lg:text-base w-7 md:w-8 lg:w-9 h-7 md:h-8 lg:h-9 flex items-center justify-center text-primary"></span>
+        </div>
+      </div>
+      <div class="w-full">
+        <span class="block text-xl md:text-22 lg:text-2xl xl:text-28 font-bold">100k</span>
+        <div class="flex items-center space-x-2 mt-2">
+          <div class="flex items-center space-x-1 bg-gray_6 rounded-md p-1">
+            <span class="icon-up_arrow text-10 text-persion_green"></span>
+            <span class="block text-xs text-persion_green">16.24 %</span>
+          </div>
+          <div class="flex items-center">
+            <span class="block text-sm text-gray_1">This Month</span>
+            <span class="icon-down_arrow1 text-gray_1"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-full user_details border border-gray_5 rounded-xl cursor-pointer space-y-4 p-3.5 md:p-4 lg:p-5" [routerLink]="'space-plan'" routerLinkActive="selected">
+      <div class="flex items-center justify-between">
+        <span class="block text-sm whitespace-nowrap text-gray_1 pr-1">Space plan</span>
+        <div class="bg-light_primary rounded-lg">
+          <span class="icon-earnings_and_expense text-sm lg:text-base w-7 md:w-8 lg:w-9 h-7 md:h-8 lg:h-9 flex items-center justify-center text-primary"></span>
+        </div>
+      </div>
+      <div class="w-full">
+        <span class="block text-xl md:text-22 lg:text-2xl xl:text-28 font-bold">100k</span>
+        <div class="flex items-center space-x-2 mt-2">
+          <div class="flex items-center space-x-1 bg-gray_6 rounded-md p-1">
+            <span class="icon-up_arrow text-10 text-persion_green"></span>
+            <span class="block text-xs text-persion_green">16.24 %</span>
+          </div>
+          <div class="flex items-center">
+            <span class="block text-sm text-gray_1">This Month</span>
+            <span class="icon-down_arrow1 text-gray_1"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-full user_details border border-gray_5 rounded-xl cursor-pointer space-y-4 p-3.5 md:p-4 lg:p-5" [routerLink]="'livestream-plan-organizer'" routerLinkActive="selected">
+      <div class="flex items-center justify-between">
+        <span class="block text-sm whitespace-nowrap text-gray_1 pr-1">Livestream plans organizer</span>
+        <div class="bg-light_primary rounded-lg">
+          <span class="icon-earnings_and_expense text-sm lg:text-base w-7 md:w-8 lg:w-9 h-7 md:h-8 lg:h-9 flex items-center justify-center text-primary"></span>
+        </div>
+      </div>
+      <div class="w-full">
+        <span class="block text-xl md:text-22 lg:text-2xl xl:text-28 font-bold">100k</span>
+        <div class="flex items-center space-x-2 mt-2">
+          <div class="flex items-center space-x-1 bg-gray_6 rounded-md p-1">
+            <span class="icon-up_arrow text-10 text-persion_green"></span>
+            <span class="block text-xs text-persion_green">16.24 %</span>
+          </div>
+          <div class="flex items-center">
+            <span class="block text-sm text-gray_1">This Month</span>
+            <span class="icon-down_arrow1 text-gray_1"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-full">
+    <router-outlet></router-outlet>
+  </div>
+</div>

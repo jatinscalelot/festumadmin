@@ -1,0 +1,238 @@
+<div class="w-full space-y-5 lg:space-y-7 xl:space-y-9 p-5 xl:p-8 2xl:p-10">
+  <div class="flex items-center cursor-pointer space-x-3" [routerLink]="'/live-stream'">
+    <i class="icon-left_arrow text-2xl text-gray_1"></i>
+    <span class="text-gray_1 font-medium">Back</span>
+  </div>
+  <div class="w-dull min-h-[770px] rounded-2xl bg-light py-6 px-7">
+    <div class="w-full max-h-[320px] rounded-2xl overflow-hidden">
+      <img [src]="!!(liveStreamByIdData?.banner) ? constants?.FEBaseImageURL + liveStreamByIdData.banner : constants?.defaultImage" alt="banner" class="w-full h-full object-cover">
+    </div>
+    <div class="flex flex-wrap xl:flex-nowrap items-center justify-end xl:justify-between space-y-3 xl:space-y-0">
+      <div class="w-full xl:pr-3 pt-6">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <strong class="max-w-[600px] w-full text-2xl font-semibold whitespace-nowrap text-ellipsis overflow-hidden mr-4">{{liveStreamByIdData?.event_name}}</strong>
+            <div class="bg-primary/20 text-primary rounded-md font-medium whitespace-nowrap px-3 py-1" *ngIf="liveStreamByIdData?.event_category && liveStreamByIdData?.event_category?.categoryname"> {{liveStreamByIdData?.event_category?.categoryname}}</div>
+          </div>
+          <button class="flex items-center text-xs font-medium whitespace-nowrap bg-primary group-hover:bg-white anim border border-primary cursor-pointer rounded-lg py-2 px-5" color="primary" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="!!bookedAttendees  && bookedAttendees.length">
+            <span _ngcontent-ng-c835616354="" class="icon-document_upload sm:text-[18px] font-medium text-white group-hover:text-primary anim mr-1"></span>
+            <span class="text-white group-hover:text-primary anim">Export</span>
+          </button>
+        </div>
+        <div class="flex justify-between pt-5">
+          <div class="space-y-3">
+            <span class="block text-sm font-medium text-gray_3">Ratings</span>
+            <div class="flex space-x-1.5">
+              <p-rating [(ngModel)]="liveStreamByIdData.ratings" [readonly]="true" [cancel]="false"
+                [iconOnStyle]="{'color':'#C53434'}"></p-rating>
+            </div>
+          </div>
+          <!-- <div class="space-y-3">
+            <span class="block text-sm font-medium text-gray_3">Status</span>
+            <span class="block font-medium">Live</span>
+          </div>
+          <div class="space-y-3">
+            <span class="block text-sm font-medium text-gray_3">Event Category</span>
+            <span class="block font-medium">Seminar</span>
+          </div> -->
+        </div>
+      </div>
+      <!-- <div class="flex flex-row-reverse xl:flex-col xl:space-y-4">
+        <span class="block text-sm bg-[#FEE6E6] text-[#C53434] rounded-lg ml-3 xl:ml-0 px-4 py-2.5">Cancel Event</span>
+        <h2 class="text-28 font-bold">2000 INR</h2>
+      </div> -->
+    </div>
+    <div class="w-full pt-10">
+      <mat-tab-group animationDuration="0ms">
+        <mat-tab label="Overview">
+          <div class="w-full overflow-hidden">
+            <div class="flex flex-wrap pt-3 lg:-mx-7">
+              <div class="w-full lg:w-7/12 border-b lg:border-b-0 lg:border-r border-gray_5  space-y-4 lg:space-y-9 py-7 lg:px-7">
+                <div class="w-full" *ngIf="liveStreamByIdData?.event_description ">
+                  <strong class="block text-lg">About LiveStream</strong>
+                  <p [innerHtml]="(aboutlivestream) ? liveStreamByIdData?.event_description : liveStreamByIdData?.event_description | slice:0:180"
+                    class="text-gray_2 pt-4 text-justify"></p>
+                  <a href="javascript:;" (click)="aboutlivestream=true"
+                    *ngIf="!aboutlivestream && liveStreamByIdData?.event_description.length > 180"
+                    class="text-magicPotion text-sm font-semibold cursor-pointer">...Read More</a>
+                  <a href="javascript:;" (click)="aboutlivestream=false"
+                    *ngIf="aboutlivestream && liveStreamByIdData?.event_description.length > 180"
+                    class="text-magicPotion text-sm font-semibold cursor-pointer">...Read Less</a>
+                </div>
+                <div class="w-full" *ngIf="!liveStreamByIdData?.event_description ">
+                  <strong class="block text-lg">About LiveStream</strong>
+                  <div class="bg-white py-4 px-6 rounded-xl mt-4">
+                    No About details Found...
+                  </div>
+                </div>
+                <div class="w-full">
+                  <div class="flex justify-between">
+                    <strong class="text-lg">Photo</strong>
+                    <span *ngIf="liveStreamByIdData?.photos?.length > 0" class="font-medium text-gray_2 cursor-pointer"
+                      (click)="openImageAndVideoDialog(liveStreamByIdData?.photos, true, false)">View All</span>
+                  </div>
+                  <div class="w-full bg-white rounded-2xl px-7 py-4 mt-4"
+                    *ngIf="!liveStreamByIdData?.photos || liveStreamByIdData?.photos?.length == 0"><span>No Photos
+                      Found...</span></div>
+                  <div class="flex flex-wrap pt-4 -mx-2"
+                    *ngIf="liveStreamByIdData?.photos || liveStreamByIdData?.photos?.length > 0">
+                    <div class="p-2" *ngFor="let img of liveStreamByIdData?.photos">
+                      <div class="w-[120px] h-[120px] relative rounded-2xl overflow-hidden group"
+                        (click)="openImageAndVideoDialog([img], true, false, false)">
+                        <p-image [src]="!!(img?.url) ? constants?.FEBaseImageURL + img?.url : constants?.defaultImage"
+                          imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full"
+                          [preview]="false"></p-image>
+                        <div
+                          class="opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 flex items-center justify-center absolute inset-0 transition-all duration-300 cursor-pointer z-10">
+                          <i class="icon-view text-2xl text-white"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-full">
+                  <div class="flex justify-between">
+                    <strong class="text-lg">Video</strong>
+                    <span class="font-medium text-gray_2 cursor-pointer" 
+                    *ngIf="liveStreamByIdData?.videos?.length > 0" (click)="openImageAndVideoDialog(liveStreamByIdData?.videos, false, false)" >View All</span>
+                    
+                  </div>
+                  <div class="w-full bg-white rounded-2xl px-7 py-4 mt-4" *ngIf="!liveStreamByIdData?.videos || liveStreamByIdData?.videos?.length == 0"><span>No Videos
+                    Found...</span></div>
+                  <div class="flex flex-wrap pt-4 -mx-2" *ngIf="liveStreamByIdData?.videos?.length > 0">
+                    <div class="p-2" *ngFor="let video of liveStreamByIdData?.videos">
+                      <div class="w-[120px] h-[120px] relative rounded-2xl overflow-hidden group" (click)="openImageAndVideoDialog([video], false, false, true)">
+                        <video
+                        [src]="!!(video?.url) ? constants?.FEBaseImageURL + video?.url + '#t=0.5' : constants?.defaultImage"
+                        class="w-full h-full object-cover bg-white"></video>
+                      <div
+                        class="opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 flex items-center justify-center absolute inset-0 transition-all duration-300 cursor-pointer z-10">
+                        <i class="icon-view text-2xl text-white"></i>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-full">
+                  <strong class="block text-lg">Company Details</strong>
+                  <div class="w-full bg-white rounded-2xl px-7 py-4 mt-4" *ngIf="liveStreamByIdData?.companydetail?.name">
+                    <p class="text-gray_2 tracking-tight font-light" [innerHtml]="(showMore) ? liveStreamByIdData?.companydetail?.name : liveStreamByIdData?.companydetail?.name | slice:0:180"></p>
+                      <a href="javascript:;" (click)="showMore=true" *ngIf="!showMore && liveStreamByIdData?.companydetail?.name.length > 180" class="text-magicPotion text-sm font-semibold">...Read More</a>
+                      <a href="javascript:;" (click)="showMore=false" *ngIf="showMore && liveStreamByIdData?.companydetail?.name.length > 180" class="text-magicPotion text-sm font-semibold">...Read Less</a>
+                  </div>
+                  <div class="w-full bg-white rounded-2xl px-7 py-4 mt-4" *ngIf="!liveStreamByIdData?.companydetail?.name">
+                    No Company Details Found...
+                  </div>
+                </div>
+                <div class="w-full">
+                  <strong class="block text-lg">Terms & Conditions</strong>
+                  <div class="w-full bg-white rounded-2xl px-7 py-4 mt-4" *ngIf="liveStreamByIdData?.tandc?.t_and_c">
+                    <p class="text-gray_2 tracking-tight font-light" [innerHtml]="(showMore) ? liveStreamByIdData?.tandc?.t_and_c : liveStreamByIdData?.tandc?.t_and_c | slice:0:180"></p>
+                      <a href="javascript:;" (click)="showMore=true" *ngIf="!showMore && liveStreamByIdData?.tandc?.t_and_c.length > 180" class="text-magicPotion text-sm font-semibold">...Read More</a>
+                      <a href="javascript:;" (click)="showMore=false" *ngIf="showMore && liveStreamByIdData?.tandc?.t_and_c.length > 180" class="text-magicPotion text-sm font-semibold">...Read Less</a>
+                  </div>
+                  <div class="w-full bg-white rounded-2xl px-7 py-4 mt-4" *ngIf="!liveStreamByIdData?.tandc?.t_and_c">
+                    No Terms and Conditions found...
+                  </div>
+                </div>
+                <div class="w-full">
+                  <strong class="block text-lg">Social Media</strong>
+                  <div class="flex items-center bg-white py-4 px-6 rounded-xl space-x-4 lg:space-x-5 mt-4" *ngIf="liveStreamByIdData?.tandc && liveStreamByIdData?.tandc?.facebook && liveStreamByIdData?.tandc?.facebook != '' ||
+                  liveStreamByIdData?.tandc && liveStreamByIdData?.tandc?.twitter && liveStreamByIdData?.tandc?.twitter != '' ||
+                  liveStreamByIdData?.tandc && liveStreamByIdData?.tandc?.youtube && liveStreamByIdData?.tandc?.youtube != '' ||
+                  liveStreamByIdData?.tandc && liveStreamByIdData?.tandc?.pinterest && liveStreamByIdData?.tandc?.pinterest != '' ||
+                  liveStreamByIdData?.tandc && liveStreamByIdData?.tandc?.instagram && liveStreamByIdData?.tandc?.instagram != '' ||
+                  liveStreamByIdData?.tandc && liveStreamByIdData?.tandc?.linkedin && liveStreamByIdData?.tandc?.linkedin != ''">
+                    <a class="block w-9 h-9 cursor-pointer" *ngIf="liveStreamByIdData?.tandc?.twitter != ''" [href]="liveStreamByIdData?.tandc?.twitter" target="_blank">
+                      <img src="../assets/images/svg/twitter.svg" alt="Twitter">
+                    </a>
+                    <a class="block w-9 h-9 cursor-pointer" *ngIf="liveStreamByIdData?.tandc?.linkedin != ''" [href]="liveStreamByIdData?.tandc?.linkedin" target="_blank">
+                      <img src="../assets/images/svg/linkedIn.svg" alt="Linked In">
+                    </a>
+                    <a class="block w-9 h-9 cursor-pointer" *ngIf="liveStreamByIdData?.tandc?.facebook != ''" [href]="liveStreamByIdData?.tandc?.facebook" target="_blank">
+                      <img src="../assets/images/svg/facebook.svg" alt="Facebook">
+                    </a>
+                    <a class="block w-9 h-9 cursor-pointer" *ngIf="liveStreamByIdData?.tandc?.instagram != ''" [href]="liveStreamByIdData?.tandc?.instagram" target="_blank">
+                      <img src="../assets/images/svg/instagram.svg" alt="Instagram">
+                    </a>
+                    <a class="block w-9 h-9 cursor-pointer" *ngIf="liveStreamByIdData?.tandc?.pinterest != ''" [href]="liveStreamByIdData?.tandc?.pinterest" target="_blank">
+                      <img src="../assets/images/svg/printrest.svg" alt="Printrest">
+                    </a>
+                    <a class="block w-9 h-9 cursor-pointer" *ngIf="liveStreamByIdData?.tandc?.youtube != ''" [href]="liveStreamByIdData?.tandc?.youtube" target="_blank">
+                      <img src="../assets/images/youtube.png" alt="Youtube">
+                    </a>
+                  </div>
+                  <div class="bg-white py-4 px-6 rounded-xl mt-4" *ngIf="liveStreamByIdData?.tandc?.facebook.length == 0 && liveStreamByIdData?.tandc?.twitter.length == 0 && liveStreamByIdData?.tandc?.youtube.length == 0 && liveStreamByIdData?.tandc?.pinterest.length == 0 && liveStreamByIdData?.tandc?.instagram.length == 0 && liveStreamByIdData?.tandc?.linkedin.length == 0">
+                    No Social media link yet
+                  </div>
+                </div>
+              </div>
+              <div class="w-full lg:w-5/12 space-y-4 lg:space-y-9 py-7 lg:px-7">
+                <div class="w-full bg-white rounded-2xl space-y-6 p-4">
+                  <div class="font-medium">
+                    <span class="block text-sm text-gray_3">Date</span>
+                    <span class="block">{{liveStreamByIdData?.event_date | date:'dd MMM, yyyy'}}</span>
+                  </div>
+                  <div class="font-medium">
+                    <span class="block text-sm text-gray_3">Time</span>
+                    <span class="block">{{liveStreamByIdData?.event_start_time | convertFrom24To12Format}} - {{liveStreamByIdData?.event_end_time | convertFrom24To12Format}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Review">
+          <div class="flex flex-col space-y-2.5 pt-10" *ngIf="liveStreamByIdData?.reviews.length > 0">
+            <div class="flex justify-between bg-white rounded-xl px-4 py-2.5" *ngFor="let reviews of liveStreamByIdData?.reviews">
+              <div class="flex items-start pr-3">
+                <div class="w-12 h-12 rounded-full overflow-hidden">
+                  <img [src]="!!(reviews?.userid?.profilepic) ? constants?.FEBaseImageURL + reviews?.userid?.profilepic : constants.userDefaultImage" alt="User" class="w-full h-full object-cover">
+                </div>
+                <div class="w-[calc(100%-48px)] pl-6">
+                  <strong class="block text-lg">{{ reviews?.userid?.name }}</strong>
+                  <p class="max-w-3xl tracking-tight text-gray_2 pt-1">{{ reviews?.review }}</p>
+                </div>
+              </div>
+              <div class="">
+                <div class="flex space-x-1.5">
+                  <p-rating [(ngModel)]="reviews.ratings" [readonly]="true" [cancel]="false"></p-rating>
+                </div>
+                <span class="block font-medium whitespace-nowrap pt-3 ">{{ reviews?.createdAt | date:'dd MMM, yyyy' }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white py-4 px-6 rounded-xl mt-10" *ngIf="liveStreamByIdData?.reviews.length == 0">
+            No Reviews Found...
+          </div>
+        </mat-tab>
+        <mat-tab label="Attendees">
+          <div class="flex flex-col space-y-2.5 pt-10" *ngIf="bookedAttendees && bookedAttendees?.length">
+            <div class="flex justify-between bg-white rounded-xl px-4 py-2.5" *ngFor="let attendee of bookedAttendees;let i = index;">
+              <div class="pr-3">
+                <div class="flex items-center">
+                  <strong class="block text-lg">{{attendee?.userid?.name}}</strong>
+                  <!-- <span class="block text-primary text-sm font-medium pl-5">#00000016</span> -->
+                </div>
+                <p class="text-xs font-medium text-gray_1 pt-1">{{attendee?.createdAt | date:'dd MMM, yyyy  hh:mm a'}}</p>
+              </div>
+              <div class="flex items-center">
+                <strong class="text-base text-primary">Attend Live stream</strong>
+              </div>
+            </div>
+            <div class="attendees flex flex-wrap items-center justify-center" *ngIf="bookedAttendees && bookedAttendees?.length">
+              <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 50]" (onPageChange)="getAttendees($event)"></p-paginator>
+            </div>
+          </div>
+          <div class="bg-white py-4 px-6 rounded-xl mt-10" *ngIf="!bookedAttendees || bookedAttendees?.length == 0">
+            No Attendees Found...
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>
+
+<app-image-and-video-preview *ngIf="isOpenPopup" (openClosePopup)="closePop($event)" [isSingleVideo]="isSingleVideo"
+  [isImageOrVideoFlag]="isImage" [isCompanyImagesAndVideo]="companyIAndV"
+  [expectedProp]="imagesOrVideosArr"></app-image-and-video-preview>

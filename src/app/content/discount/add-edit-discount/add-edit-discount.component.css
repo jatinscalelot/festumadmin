@@ -1,0 +1,9 @@
+/* Override the background color when the custom class is applied */
+::ng-deep.custom-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background-color: purple !important;
+}
+
+/* Override the color of the thumb (circle) when the custom class is applied */
+::ng-deep.custom-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+  background-color: red !important;
+}

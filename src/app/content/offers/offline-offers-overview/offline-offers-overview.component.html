@@ -1,0 +1,242 @@
+<div class="space-y-5 lg:space-y-7 xl:space-y-9 p-5 xl:p-8 2xl:p-10">
+  <div class="flex items-center cursor-pointer space-x-3" [routerLink]="'/offers'">
+    <i class="icon-left_arrow text-2xl text-gray_1"></i>
+    <span class="text-gray_1 font-medium">Back</span>
+  </div>
+  <div class="w-dull rounded-2xl bg-light py-6 px-7">
+    <div class="w-full h-[220px] rounded-2xl overflow-hidden">
+      <img [src]="!!(offlineOfferByIdData?.poster) ? constants.FEBaseImageURL + offlineOfferByIdData.poster : constants.defaultImage" [alt]="offlineOfferByIdData?.offer_title" class="w-full h-full object-cover">
+    </div>
+    <div class="flex flex-wrap md:flex-nowrap items-center justify-end md:justify-between space-y-3 md:space-y-0">
+      <div class="md:max-w-2xl w-full md:pr-4 pt-6">
+        <strong class="block max-w-[330px] w-full text-2xl font-semibold whitespace-nowrap text-ellipsis mr-4">{{offlineOfferByIdData?.offer_title}}</strong>
+        <div class="space-y-2 mt-5">
+          <span class="block text-sm font-medium text-gray_3">Date</span>
+          <span class="block font-medium">{{offlineOfferByIdData?.start_date | date: 'dd MMM, yyyy'}} - {{offlineOfferByIdData?.end_date | date: 'dd MMM, yyyy'}}</span>
+        </div>
+      </div>
+      <div class="flex flex-col items-end space-y-3">
+        <div class="flex items-center justify-center w-9 h-9 bg-light_primary rounded-lg cursor-pointer">
+          <span class="icon-share text-xl text-primary"></span>
+        </div>
+        <div class="group">
+          <button class="flex items-center text-xs font-medium whitespace-nowrap bg-primary group-hover:bg-white anim border border-primary cursor-pointer rounded-lg py-2 px-5" color="primary" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="bookedAttendees?.length">
+            <span _ngcontent-ng-c835616354="" class="icon-document_upload sm:text-[18px] font-medium text-white group-hover:text-primary anim mr-1"></span>
+            <span class="text-white group-hover:text-primary anim">Export</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-wrap lg:-mx-7">
+      <div class="w-full lg:w-7/12 py-7 lg:px-7">
+        <mat-tab-group animationDuration="0ms">
+          <mat-tab label="First">
+            <ng-template mat-tab-label>
+              <span class="block text-gray_1">Overview</span>
+            </ng-template>
+            <div class="w-full pt-8 pr-7 space-y-4 lg:space-y-9">
+              <div class="w-full" *ngIf="offlineOfferByIdData?.description">
+                <strong class="block text-lg">Offer Description</strong>
+                <div class="text-gray_2 pt-4" [innerHtml]="(offerdesc) ? offlineOfferByIdData?.description : offlineOfferByIdData?.description| slice:0:180"></div>
+                <a href="javascript:;" *ngIf="!offerdesc && offlineOfferByIdData?.description > 180" (click)="offerdesc=true"class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+                <a href="javascript:;" *ngIf="offerdesc && offlineOfferByIdData?.description.length > 180" (click)="offerdesc=false"class="text-magicPotion text-sm font-semibold ml-auto">...Read Less</a>
+              </div>
+              <div class="w-full" *ngIf="!offlineOfferByIdData?.description">
+                <strong class="block text-lg">Offer Description</strong>
+                <div class="text-gray_2 pt-4">
+                  No Offer Description found...
+                </div>
+              </div>
+              <div class="w-full">
+                <div class="flex justify-between">
+                  <strong class="text-lg">Photo</strong>
+                  <!-- <span class="font-medium text-gray_2">View All</span> -->
+                </div>
+                <div class="flex flex-wrap pt-4 -mx-2">
+                  <div class="p-2" *ngIf="offlineOfferByIdData?.poster">
+                    <div class="w-[120px] h-[120px] relative overflow-hidden rounded-2xl z-30">
+                      <p-image [src]="!!(offlineOfferByIdData?.poster) ? constants.FEBaseImageURL + offlineOfferByIdData.poster : constants.defaultImage" [alt]="offlineOfferByIdData?.offer_title" imageClass="w-full h-full object-cover" styleClass="w-full h-full object-cover" [preview]="true"></p-image>
+                    </div>
+                  </div>
+                  <div class="p-2" *ngIf="!offlineOfferByIdData?.poster">
+                    No Photo Found...
+                  </div>
+                </div>
+              </div>
+              <div class="w-full">
+                <div class="flex justify-between">
+                  <strong class="text-lg">Video</strong>
+                  <!-- <span class="font-medium text-gray_2">View All</span> -->
+                </div>
+                <div class="flex flex-wrap pt-4 -mx-2" *ngIf="offlineOfferByIdData?.video">
+                  <div class="p-2 group">
+                    <div class="w-[120px] h-[120px] relative rounded-2xl overflow-hidden cursor-pointer" (click)="openImageAndVideoDialog([obj], false, false, true)">
+                      <video [src]="!!(offlineOfferByIdData?.video) ? constants.FEBaseImageURL + offlineOfferByIdData.video : constants.defaultImage" class="w-full h-full object-cover"></video>
+                      <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                        <i class="icon-view text-2xl text-white"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-wrap pt-4 -mx-2" *ngIf="!offlineOfferByIdData?.video">
+                  <div class="p-2 group">
+                    No Videos Found...
+                  </div>
+                </div>
+              </div>
+
+              <div class="w-full" *ngIf="offlineOfferByIdData?.offer_on_all_products">
+                <!-- <strong class="text-lg">offer description</strong> -->
+                <div class="space-y-2 mt-4">
+                  <div class="flex items-center justify-between bg-white rounded-2xl overflow-hidden py-4 px-7" *ngFor="let prod_imgs of offlineOfferByIdData?.all_product_images; let i = index">
+                    <span class="block w-24 h-12 rounded-lg overflow-hidden">
+                      <p-image [src]="!!(prod_imgs?.url) ? constants.FEBaseImageURL + prod_imgs.url : constants.defaultImage"[alt]="'product-'+i" imageClass="w-full h-full object-cover rounded overflow-hidden" styleClass="w-full h-full" [preview]="true"></p-image>
+                    </span>
+                    <div class="space-y-5">
+                      <div class="flex items-center justify-between space-x-3" *ngFor="let product of offlineOfferByIdData?.all_product_conditions; let i = index">
+                        <p class="text-base font-bold text-japaneseIndigo mr-auto" *ngIf="product?.description != ''">{{product?.description}}</p>
+                        <!-- <p class="text-base font-bold text-japaneseIndigo" *ngIf="product?.person_limitation != ''">{{product?.person_limitation}}</p> -->
+                        <span class="bg-primary/10 text-sm font-bold text-magicPotion text-primary border border-dashed border-primary rounded-md py-2 px-6">{{product?.discount}}{{(product?.discount_type == 'percentage') ? '%' : '₹'}} Off</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="w-full" *ngIf="!offlineOfferByIdData?.offer_on_all_products">
+                <strong class="text-lg">Platform & Product Link</strong>
+                <div class="space-y-2 mt-4">
+                  <div class="w-full flex items-center rounded-2xl bg-white py-2 5 px-8" *ngFor="let offer of offlineOfferByIdData?.offer_type_conditions">
+                    <div class="w-16 h-12 flex items-center justify-center rounded-lg overflow-hidden">
+                      <p-image [src]="!!(offer?.url) ? constants.FEBaseImageURL + offer.url : constants.defaultImage" [alt]="offer?.product_name" imageClass="w-full h-full object-cover" styleClass="w-full h-full object-cover" [preview]="true"></p-image>
+                    </div>
+                    <p class="block font-medium pl-6">{{offer?.product_name}}</p>
+                    <div class="ml-auto pl-4">
+                      <span class="block text-base text-right text-primary font-medium">{{offer?.discount}}{{(offer?.discount_type == constants.discountTypeArr[constants.discountTypeObj.percentage].value) ? "%" : "₹" }} Off</span>
+                      <span class="block text-sm font-light pt-2">{{offlineOfferByIdData?.offer_type == "unlimited_person" ? "This Offer Is For Unlimmited Person" : "This Offer Is Limmited To First " + offer?.person_limitation + " Persons Only"}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full">
+                <strong class="block text-lg">Terms & Conditions</strong>
+                <div class="w-full bg-white rounded-2xl px-7 py-4 mt-4">
+                  <div [innerHtml]="(tAndc) ? offlineOfferByIdData?.tandc : offlineOfferByIdData?.tandc | slice:0:170" class="text-gray_2 tracking-tight font-light"></div>
+                  <a href="javascript:;" *ngIf="!tAndc && offlineOfferByIdData?.tandc.length > 180" (click)="tAndc=true"class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+                  <a href="javascript:;" *ngIf="tAndc && offlineOfferByIdData?.tandc.length > 180" (click)="tAndc=false"class="text-magicPotion text-sm font-semibold ml-auto">...Read Less</a>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Second">
+            <ng-template mat-tab-label>
+              <span class="block text-gray_1">Attendees</span>
+            </ng-template>
+            <div class="w-full min-h-[600px] h-full overflow-y-auto pt-8 space-y-4 lg:space-y-9" *ngIf="bookedAttendees.length">
+              <div class="space-y-6">
+                <div class="flex items-center justify-between py-3 px-6 bg-white rounded-2xl" *ngFor="let attendee of bookedAttendees;let i = index;">
+                  <div class="">
+                    <div class="flex items-center">
+                      <strong class="block text-lg">{{attendee.userid?.name}}</strong>
+                      <span class="block font-medium text-primary ml-3">#{{attendee.invoice_no}}</span>
+                    </div>
+                    <p class="text-xs tracking-wide text-gray_2 pt-1">{{attendee.timestamp | date:'dd MMM, yyyy  hh:mm a' }}</p>
+                  </div>
+                  <div class="min-w-[100px] max-w-[150px] w-full">
+                    <span class="block font-medium text-right text-primary">Booked Offer</span>
+                  </div>
+                </div>
+              </div>
+              <div class="attendees flex flex-wrap items-center justify-center" *ngIf="bookedAttendees && bookedAttendees?.length">
+                <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 50]" (onPageChange)="getAttendees($event)"></p-paginator>
+              </div>
+            </div>
+            <div class="w-full pt-8 space-y-4 lg:space-y-9" *ngIf="!bookedAttendees.length">
+              <div class="space-y-6">
+                <div class="flex items-center justify-between py-3 px-6 bg-white rounded-2xl">
+                 No Attendees Found...
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Third">
+            <ng-template mat-tab-label>
+              <span class="block text-gray_1">Review</span>
+            </ng-template>
+            <div class="w-full pt-8 space-y-2" *ngIf="offlineOfferByIdData?.reviews.length > 0">
+              <div class="flex justify-between bg-white rounded-2xl py-3 px-6" *ngFor="let reviews of offlineOfferByIdData?.reviews">
+                <div class="flex items-center pr-3">
+                  <div class="w-11 h-11 rounded-full">
+                    <img [src]="!!(reviews?.userid?.profilepic) ? constants.FEBaseImageURL + reviews?.userid?.profilepic : constants.userDefaultImage" class="w-full h-full object-cover">
+                  </div>
+                  <div class="pl-4">
+                    <strong class="block">{{ reviews?.userid?.name }}</strong>
+                    <p class="tracking-tight text-xs text-gray_2">{{ reviews?.review }}</p>
+                  </div>
+                </div>
+                <div class="flex items-center">
+                  <span class="block whitespace-nowrap text-gray_2 mr-4">{{ reviews?.createdAt | date:'dd MMM, yyyy' }}</span>
+                  <div class="flex space-x-1.5">
+                    <p-rating [(ngModel)]="reviews.ratings" [readonly]="true" [cancel]="false"></p-rating>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="w-full pt-8 pr-7 space-y-2" *ngIf="offlineOfferByIdData?.reviews.length == 0">
+              <div class="flex justify-between bg-white rounded-2xl py-3 px-6">
+               No reviews found...
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+      <div class="w-full lg:w-5/12 border-t lg:border-t-0 lg:border-l border-gray_5 space-y-4 lg:space-y-9 py-7 lg:px-7 lg:mt-20">
+        <div class="w-full bg-white rounded-2xl p-4">
+          <div class="max-h-[224px] w-full h-full  overflow-hidden xl:aspect-square rounded-2xl">
+            <!-- implement amg map  -->
+            <google-map height="500px" width="100%" [zoom]="zoom" [center]="center" [options]="options" class="w-full h-56">
+              <map-marker
+              *ngFor="let marker of markers"
+              [position]="marker.position"
+              [label]="marker.label"
+              [title]="marker.title"
+              [options]="marker.options"
+            >
+            </map-marker>
+            </google-map>
+          </div>
+          <div class="font-medium pt-6">
+            <span class="block text-sm text-gray_3">Location</span>
+            <span class="block">{{offlineOfferByIdData?.shopid?.flat_no}} {{(offlineOfferByIdData?.shopid?.street_name) ? (offlineOfferByIdData?.shopid?.street_name + ',') : ''}} {{(offlineOfferByIdData?.shopid?.area_name) ? (offlineOfferByIdData?.shopid?.area_name + ',') : ''}} {{offlineOfferByIdData?.shopid?.city}}, {{offlineOfferByIdData?.shopid?.state}}, {{offlineOfferByIdData?.shopid?.pincode}}.</span>
+          </div>
+        </div>
+        <div class="w-full bg-white rounded-2xl space-y-6 p-4">
+          <div class="font-medium">
+            <span class="block text-sm text-gray_3">Open Day</span>
+            <ul class="flex flex-col justify-between openday_list mt-2.5">
+              <li class="flex items-center" for="weekday-su" *ngFor="let day of offlineOfferByIdData?.shopid?.shop_days">
+                <span class="block w-12 text-base text-quicksilver text-gray_3" *ngIf="day.open">{{day.day}}</span>
+                <span class="block" *ngIf="day.open">&nbsp;:&nbsp;&nbsp;</span>
+                <span class="block text-sm" *ngIf="day.open">{{day.starttime}} - {{day.endtime}}</span>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="font-medium">
+            <span class="block text-sm text-gray_3">Shop Open Time</span>
+            <span class="block">09:00 AM - 06:00 PM</span>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isLoading"
+  class="absolute inset-0 w-full h-full flex items-center justify-center bg-slate-300/30 backdrop-blur-sm z-10">
+  <div class="flex flex-col items-center justify-center">
+    <div class="w-12 h-12 rounded-full animate-spin border-4 border-solid border-primary border-t-transparent"></div>
+    <p class="block text-base font-medium pt-2">Plase wait</p>
+  </div>
+</div>
+
+<app-image-and-video-preview *ngIf="isOpenPopup" (openClosePopup)="closePop($event)" [isSingleVideo]="isSingleVideo" [isImageOrVideoFlag]="isImage" [isCompanyImagesAndVideo]="companyIAndV" [expectedProp]="imagesOrVideosArr"></app-image-and-video-preview>

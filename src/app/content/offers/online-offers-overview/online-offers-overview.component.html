@@ -1,0 +1,209 @@
+<div class="space-y-5 lg:space-y-7 xl:space-y-9">
+  <div class="flex items-center cursor-pointer space-x-3" [routerLink]="'/offers'">
+    <i class="icon-left_arrow text-2xl text-gray_1"></i>
+    <span class="text-gray_1 font-medium">Back</span>
+  </div>
+  <div class="w-dull rounded-2xl bg-light py-6 px-7">
+    <div class="w-full h-[220px] rounded-2xl overflow-hidden">
+      <img [src]="!!(onlineOfferByIdData?.poster) ? constants.FEBaseImageURL + onlineOfferByIdData.poster : constants.defaultImage"
+      [alt]="onlineOfferByIdData?.shop_name" class="w-full h-full object-cover">
+    </div>
+    <div class="flex flex-wrap md:flex-nowrap items-center justify-end md:justify-between space-y-3 xl:space-y-0">
+      <div class="md:max-w-2xl w-full md:pr-3 pt-6">
+        <strong class="block max-w-[330px] w-full text-2xl font-semibold whitespace-nowrap text-ellipsis mr-4">{{onlineOfferByIdData?.shop_name}}</strong>
+        <div class="flex items-center justify-between mt-5">
+          <div class="space-y-2">
+            <span class="block text-sm font-medium text-gray_3">Ratings</span>
+            <div class="flex space-x-1.5">
+              <p-rating [(ngModel)]="onlineOfferByIdData.ratings" [readonly]="true" [cancel]="false"></p-rating>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <span class="block text-sm font-medium text-gray_3">Date</span>
+            <span class="block font-medium">{{onlineOfferByIdData?.start_date | date:'dd MMM, yyyy'}} - {{onlineOfferByIdData?.end_date | date:'dd MMM, yyyy'}}</span>
+          </div>
+          <div class="space-y-2">
+            <span class="block text-sm font-medium text-gray_3">Offer Status</span>
+            <div class="w-16 h-14 flex items-center justify-center relative">
+              <mat-slide-toggle [(ngModel)]="onlineOfferByIdData.status"></mat-slide-toggle>
+              <div class="absolute inset-0 bg-transparent z-10 cursor-not-allowed"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center justify-center w-9 h-9 bg-light_primary rounded-lg cursor-pointer">
+        <span class="icon-share text-xl text-primary"></span>
+      </div>
+    </div>
+    <div class="flex flex-wrap lg:-mx-7 py-7">
+      <div class="w-full lg:w-7/12 py-7 lg:py-0 lg:px-7">
+        <div class="w-full space-y-4 lg:space-y-9">
+          <div class="w-full bg-white rounded-2xl space-y-6 py-4 px-8">
+            <div class="w-full">
+              <div class="flex justify-between mb-2">
+                <strong class="text-lg">Photo</strong>
+                <!-- <span class="font-medium text-gray_2">View All</span> -->
+              </div>
+              <div class="flex flex-wrap -mx-2" *ngIf="onlineOfferByIdData?.images.length > 0">
+                <div class="p-2" *ngFor="let prod_imgs of onlineOfferByIdData?.images; let i = index" >
+                  <div class="w-[120px] h-[120px] relative group rounded-2xl overflow-hidden">
+                    <!-- <p-image [src]="!!(prod_imgs?.url) ? constants.FEBaseImageURL + prod_imgs.url : constants.defaultImage"
+                    [alt]="'product-'+i" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full"
+                    [preview]="false"></p-image> -->
+                    <p-image [src]="!!(prod_imgs?.url) ? constants.FEBaseImageURL + prod_imgs.url : constants.defaultImage" alt="Image" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-wrap -mx-2" *ngIf="onlineOfferByIdData?.images.length == 0">
+                <div class="p-2">
+                  <div class="w-[120px] h-[120px] relative rounded-2xl">
+                    No Photos Found...
+                  </div>
+                </div>
+              </div>
+            </div>
+       
+            <div class="w-full">
+              <strong class="block text-lg">Product Name</strong>
+              <p class="text-gray_2 font-medium pt-2">{{onlineOfferByIdData?.product_name ? onlineOfferByIdData?.product_name : 'No Product Name Found...'}}</p>
+            </div>
+            <div class="w-full">
+              <strong class="block text-lg">Product Details</strong>
+              <div [innerHtml]="(tAndc2) ? onlineOfferByIdData?.description : onlineOfferByIdData?.description |slice:0:180" class="text-gray_2 font-light pt-2"></div>
+              <a href="javascript:;" *ngIf="!tAndc2 && onlineOfferByIdData?.description.length > 180" (click)="tAndc2=true"class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+              <a href="javascript:;" *ngIf="tAndc2 && onlineOfferByIdData?.description.length > 180" (click)="tAndc2=false"class="text-magicPotion text-sm font-semibold ml-auto">...Read Less</a>
+            </div>
+            <!-- <div class="w-full">
+              <strong class="block text-lg">Matirial & Care</strong>
+              <p class="text-gray_2 font-light pt-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam placeat a aliquid porro mollitia quibusdam obcaecati illo! Quae laboriosam nobis rerum incidunt sequi cupiditate assumenda? Molestias corrupti tempore minus iure.</p>
+            </div> -->
+          </div>
+          <div class="w-full">
+            <strong class="text-lg">Platform & Product Link</strong>
+            <div class="space-y-2 mt-4" *ngIf="onlineOfferByIdData?.product_links.length > 0">
+              <div class="w-full rounded-2xl bg-white py-2.5 px-8" *ngFor="let platform of onlineOfferByIdData?.product_links; let i = index">
+                <a [href]="platform.product_link" target="_blank" class="w-full flex items-center text-sm normal-case whitespace-nowrap overflow-hidden overflow-ellipsis">
+                  <span class="block">
+                    {{platform?.clicks}}
+                  </span>
+                  <div class="w-12 h-12 flex items-center justify-center rounded-lg overflow-hidden">
+                    <img [src]="!!(platform?.platform?.platformimage) ? constants.FEBaseImageURL + platform.platform.platformimage : constants.defaultImage"
+                    [alt]="platform.platform.name" class="w-full h-full object-cover">
+                  </div>
+                  <span class="text-xs text-quicksilver whitespace-nowrap ml-2.5">{{platform?.short_link_id?.clicks}} User Click</span>
+                  <div class="flex items-center space-x-3 text-xl leading-0 ml-auto">
+                    <a href="javascript:void(0);" class="" title="Copy" (click)="copyLink(platform.product_link)">
+                      <span class="block icon-copy_outline text-xl ml-auto cursor-pointer"></span>
+                    </a>
+                    <a [href]="platform.product_link" class="" target="_blank" title="View This Link">
+                      <span class="block icon-big_screen text-xl ml-auto cursor-pointer"></span>
+                    </a>
+                    <a href="javascript:void(0);" class="" title="Share">
+                      <span class="block icon-share text-xl ml-auto cursor-pointer"></span>  
+                    </a>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="w-full rounded-2xl bg-white py-4 px-8 mt-4" *ngIf="onlineOfferByIdData?.product_links.length == 0">
+              No Platform & Product Link Found...
+            </div>
+          </div>
+          <div class="w-full">
+            <strong class="block text-lg">Company Details</strong>
+            <div class="w-full bg-white rounded-2xl px-8 py-4 mt-4">
+              <div class="w-full" *ngIf="onlineOfferByIdData?.company_name || onlineOfferByIdData?.about_company">
+                <span class="block font-medium">{{onlineOfferByIdData?.company_name}}</span>
+                <div [innerHtml]="(tAndc1) ? onlineOfferByIdData?.about_company : onlineOfferByIdData?.about_company |slice:0:180" *ngIf="onlineOfferByIdData?.about_company.length > 0" class="ext-gray_2 font-light pt-2"></div>
+                <a href="javascript:;" *ngIf="!tAndc1 && onlineOfferByIdData?.about_company.length > 180" (click)="tAndc1=true"class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+                <a href="javascript:;" *ngIf="tAndc1 && onlineOfferByIdData?.about_company.length > 180" (click)="tAndc1=false"class="text-magicPotion text-sm font-semibold ml-auto">...Read Less</a>
+              </div>
+              <div class="w-full" *ngIf="!onlineOfferByIdData?.company_name && !onlineOfferByIdData?.about_company">
+                No Company details found...
+              </div>
+            </div>
+          </div>
+          <div class="w-full">
+            <strong class="block text-lg">Terms & Conditions</strong>
+            <div class="w-full bg-white rounded-2xl px-8 py-4 mt-4" *ngIf="onlineOfferByIdData?.tandc?.t_and_c">
+              <div class="text-gray_2 tracking-tight font-light" [innerHtml]="(tAndc) ? onlineOfferByIdData?.tandc?.t_and_c : onlineOfferByIdData?.tandc?.t_and_c | slice:0:150"></div>
+              <a href="javascript:;" *ngIf="!tAndc && onlineOfferByIdData?.tandc?.t_and_c.length > 180" (click)="tAndc=true"class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+              <a href="javascript:;" *ngIf="tAndc && onlineOfferByIdData?.tandc?.t_and_c.length > 180" (click)="tAndc=false"class="text-magicPotion text-sm font-semibold ml-auto">...Read Less</a>
+            </div>
+            <div class="w-full bg-white rounded-2xl px-8 py-4 mt-4" *ngIf="!onlineOfferByIdData?.tandc?.t_and_c">
+              No Terms & Conditions Found...
+            </div>
+          </div>
+          <div class="w-full">
+            <strong class="block text-lg">Social Media</strong>
+            <div class="w-full flex items-center bg-white rounded-2xl px-8 py-4 mt-4 space-x-3" *ngIf="onlineOfferByIdData?.tandc?.facebook && onlineOfferByIdData?.tandc?.facebook != '' ||
+            onlineOfferByIdData?.tandc?.twitter && onlineOfferByIdData?.tandc?.twitter != '' ||
+            onlineOfferByIdData?.tandc?.youtube && onlineOfferByIdData?.tandc?.youtube != '' ||
+            onlineOfferByIdData?.tandc?.pinterest && onlineOfferByIdData?.tandc?.pinterest != '' ||
+            onlineOfferByIdData?.tandc?.instagram && onlineOfferByIdData?.tandc?.instagram != '' ||
+            onlineOfferByIdData?.tandc?.linkedin && onlineOfferByIdData?.tandc?.linkedin != ''">
+              <a *ngIf="onlineOfferByIdData?.tandc?.facebook != ''" [href]="'//' + onlineOfferByIdData?.tandc?.facebook" target="_blank">
+                <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" />
+              </a>
+              <a *ngIf="onlineOfferByIdData?.tandc?.twitter != ''" [href]="'//' + onlineOfferByIdData?.tandc?.twitter" target="_blank">
+                <img class="w-10 h-10 object-cover" alt="twiiter" src="../assets/images/twiiter.png" />
+              </a>
+              <a *ngIf="onlineOfferByIdData?.tandc?.youtube != ''" [href]="'//' + onlineOfferByIdData?.tandc?.youtube" target="_blank">
+                <img class="w-10 h-10 object-cover" alt="youtube" src="../assets/images/youtube.png" />
+              </a>
+              <a *ngIf="onlineOfferByIdData?.tandc?.pinterest != ''" [href]="'//' + onlineOfferByIdData?.tandc?.pinterest" target="_blank">
+                <img class="w-10 h-10 object-cover" alt="pinterest" src="../assets/images/pinterest.png" />
+              </a>
+              <a *ngIf="onlineOfferByIdData?.tandc?.instagram != ''" [href]="'//' + onlineOfferByIdData?.tandc?.instagram" target="_blank">
+                <img class="w-10 h-10 object-cover" alt="instagram" src="../assets/images/instagram.png" />
+              </a>
+              <a *ngIf="onlineOfferByIdData?.tandc?.linkedin != ''" [href]="'//' + onlineOfferByIdData?.tandc?.linkedin" target="_blank">
+                <img class="w-10 h-10 object-cover" alt="linkdin" src="../assets/images/linked.png" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full lg:w-5/12 border-t lg:border-t-0 lg:border-l border-gray_5 space-y-4 lg:space-y-9 py-7 lg:py-0 lg:px-7">
+        <div class="w-full relative border border-dashed border-primary bg-[#F0F3F9] rounded-2xl p-5">
+          <div class="font-medium">
+            <div class="w-full space-y-4" *ngIf="!onlineOfferByIdData?.offer_amount">
+              <span class="block text-xl text-primary font-semibold">No Discount Found...</span>
+            </div>
+            <div class="w-full space-y-4" *ngIf="onlineOfferByIdData?.offer_amount">
+              <strong class="block text-sm text-[#8897AE]">Discount On Products</strong>
+              <strong class="block text-4xl">{{onlineOfferByIdData?.offer_amount}}{{(onlineOfferByIdData?.offer_type == 'percentage') ? '%' : '₹'}} Discount</strong>
+              <span class="block text-sm text-[#455468] font-medium">T&C Apply*</span>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="w-full">
+          <strong class="block text-lg">user click on platform</strong>
+          <div class="w-full bg-white rounded-2xl px-8 py-4 mt-4">
+            <div class="flex items-center">
+              <div class="w-12 h-12 rounded-full flex items-center">
+                <img src="https://festumeventos3.s3.ap-south-1.amazonaws.com/637b0cf22d89166c49573d39/global/IMG/IMG-8504192317157893.png" alt="" class="w-full h-full">
+              </div>
+              <div class="ml-4">
+                <span class="block font-medium text-base">Myntra</span>
+                <span class="block font-medium text-sm text-gray_3 mt-1">5 User Click</span>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isLoading"
+  class="absolute inset-0 w-full h-full flex items-center justify-center bg-slate-300/30 backdrop-blur-sm z-10">
+  <div class="flex flex-col items-center justify-center">
+    <div class="w-12 h-12 rounded-full animate-spin border-4 border-solid border-primary border-t-transparent"></div>
+    <p class="block text-base font-medium pt-2">Plase wait</p>
+  </div>
+</div>
+
+<!-- <app-image-and-video-preview *ngIf="isOpenPopup" (openClosePopup)="closePop($event)" [isSingleVideo]="isSingleVideo"
+  [isImageOrVideoFlag]="isImage" [isCompanyImagesAndVideo]="companyIAndV"
+  [expectedProp]="imagesOrVideosArr"></app-image-and-video-preview> -->

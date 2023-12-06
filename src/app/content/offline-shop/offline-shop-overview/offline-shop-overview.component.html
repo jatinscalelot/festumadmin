@@ -1,0 +1,170 @@
+<div class="space-y-5 lg:space-y-7 xl:space-y-9 p-5 xl:p-8 2xl:p-10">
+  <div class="flex items-center cursor-pointer space-x-3" [routerLink]="'/offlineshop'">
+    <i class="icon-left_arrow text-2xl text-gray_1"></i>
+    <span class="text-gray_1 font-medium">Back</span>
+  </div>
+  <div class="w-dull rounded-2xl bg-light py-6 px-4 md:px-7">
+    <div class="w-full h-[220px] rounded-2xl overflow-hidden">
+      <img [src]="!!(offlineShopByIdData?.banner) ? constants.FEBaseImageURL + offlineShopByIdData.banner : constants.defaultImage" [alt]="offlineShopByIdData?.shop_name" class="w-full h-full object-cover">
+    </div>
+    <div class="flex flex-wrap md:flex-nowrap items-center justify-end md:justify-between space-y-3 md:space-y-0">
+      <div class="md:max-w-2xl w-full md:pr-4 pt-6">
+        <strong class="block max-w-[330px] w-full text-2xl font-semibold whitespace-nowrap text-ellipsis mr-4">{{offlineShopByIdData?.shop_name}}</strong>
+        <div class="flex items-center mt-5">
+          <div class="space-y-2">
+            <span class="block text-sm font-medium text-gray_3">Date</span>
+            <span class="block font-medium" *ngFor="let day of offlineShopByIdData?.shop_days">
+              <span *ngIf="currentDayName == day.day">{{day.starttime}} - {{day.endtime}}</span>
+            </span>
+          </div>
+          <div class="ml-10 sm:ml-16 md:ml-24">
+            <span class="block text-sm font-medium text-gray_3">Offer Status</span>
+            <div class="w-16 h-14 flex items-center justify-center relative">
+              <mat-slide-toggle [checked]="offlineShopByIdData?.status"></mat-slide-toggle>
+              <div class="absolute inset-0 bg-transparent z-10 cursor-not-allowed"></div>
+            </div>
+          </div>
+          <div class="flex items-center justify-center md:hidden w-9 h-9 bg-light_primary rounded-lg cursor-pointer ml-auto">
+            <span class="icon-share text-xl text-primary"></span>
+          </div>
+        </div>
+      </div>
+      <div class="hidden md:flex items-center justify-center w-9 h-9 bg-light_primary rounded-lg cursor-pointer">
+        <span class="icon-share text-xl text-primary"></span>
+      </div>
+    </div>
+    <div class="flex flex-wrap lg:-mx-7">
+      <div class="w-full lg:w-7/12 py-7 lg:px-7">
+        <mat-tab-group animationDuration="0ms">
+          <mat-tab label="First">
+            <ng-template mat-tab-label>
+              <span class="block text-gray_1">Overview</span>
+            </ng-template>
+            <div class="w-full pt-8 pr-7 space-y-4 lg:space-y-9">
+              <div class="w-full">
+                <strong class="block text-lg">About Shop</strong>
+                <div class="w-full rounded-2xl bg-white py-4 px-4 md:px-8 mt-4" *ngIf="offlineShopByIdData?.about_shop">
+                  <div class="text-gray_2" [innerHtml]="(aboutShop) ? offlineShopByIdData?.about_shop : offlineShopByIdData?.about_shop| slice:0:180"></div>
+                  <a href="javascript:;" *ngIf="!aboutShop && offlineShopByIdData?.about_shop > 180" (click)="aboutShop=true"class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+                  <a href="javascript:;" *ngIf="aboutShop && offlineShopByIdData?.about_shop.length > 180" (click)="aboutShop=false"class="text-magicPotion text-sm font-semibold ml-auto">...Read Less</a>
+                </div>
+                <div class="w-full rounded-2xl bg-white py-4 px-4 md:px-8 mt-4" *ngIf="!offlineShopByIdData?.about_shop">
+                  <div class="text-gray_2">
+                    No about shop details found...
+                  </div>
+                </div>
+              </div>
+              <div class="w-full">
+                <strong class="block text-lg">About Company</strong>
+                <div class="w-full about_company">
+                  <div class="w-full rounded-2xl bg-white py-4 px-4 md:px-8 mt-4" *ngIf="offlineShopByIdData?.companydetails?.about">
+                    <div class="text-gray_2" [innerHtml]="(aboutCompany) ? offlineShopByIdData?.companydetails?.about : offlineShopByIdData?.companydetails?.about| slice:0:180"></div>
+                    <a href="javascript:;" *ngIf="!aboutCompany && offlineShopByIdData?.companydetails?.about > 180" (click)="aboutCompany=true"class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+                    <a href="javascript:;" *ngIf="aboutCompany && offlineShopByIdData?.companydetails?.about.length > 180" (click)="aboutCompany=false"class="text-magicPotion text-sm font-semibold ml-auto">...Read Less</a>
+                  </div>
+                  <div class="w-full rounded-2xl bg-white py-4 px-4 md:px-8 mt-4" *ngIf="!offlineShopByIdData?.companydetails?.about">
+                    <p class="text-gray_2">No about company details found...</p>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full">
+                <strong class="text-lg">Social Media</strong>
+                <div class="space-y-2 mt-4">
+                  <div class="w-full flex items-center rounded-2xl bg-white py-2.5 px-4 md:px-8" *ngIf="offlineShopByIdData?.companydetails?.social_media_links?.facebook_link">
+                    <div class="w-8 md:w-10 h-8 md:h-10 rounded-lg overflow-hidden">
+                      <img class="w-full h-full object-cover" alt="facebook" src="../assets/images/facebook.png"/>
+                    </div>
+                    <a [href]="offlineShopByIdData?.companydetails?.social_media_links?.facebook_link" target="_blank" class="block w-[calc(100%-32px)] md:w-[calc(100%-40)] font-medium whitespace-nowrap text-ellipsis overflow-clip px-4">{{offlineShopByIdData?.companydetails?.social_media_links?.facebook_link}}</a>
+                  </div>
+
+                  <div class="w-full flex items-center rounded-2xl bg-white py-2.5 px-4 md:px-8" *ngIf="offlineShopByIdData?.companydetails?.social_media_links?.youtube_link">
+                    <div class="w-8 md:w-10 h-8 md:h-10 rounded-lg overflow-hidden">
+                      <img class="w-full h-full object-cover" alt="youtube" src="../assets/images/youtube.png"/>
+                    </div>
+                    <a [href]="offlineShopByIdData?.companydetails?.social_media_links?.youtube_link" target="_blank" class="block w-[calc(100%-32px)] md:w-[calc(100%-40)] font-medium whitespace-nowrap text-ellipsis overflow-clip px-4">{{offlineShopByIdData?.companydetails?.social_media_links?.youtube_link}}</a>
+                  </div>
+
+                  <div class="w-full flex items-center rounded-2xl bg-white py-2.5 px-4 md:px-8" *ngIf="offlineShopByIdData?.companydetails?.social_media_links?.twitter_link">
+                    <div class="w-8 md:w-10 h-8 md:h-10 rounded-lg overflow-hidden">
+                      <img class="w-full h-full object-cover" alt="twiiter" src="../assets/images/twitter.png"/>
+                    </div>
+                    <a [href]="offlineShopByIdData?.companydetails?.social_media_links?.twitter_link" target="_blank" class="block w-[calc(100%-32px)] md:w-[calc(100%-40)] font-medium whitespace-nowrap text-ellipsis overflow-clip px-4">{{offlineShopByIdData?.companydetails?.social_media_links?.twitter_link}}</a>
+                  </div>
+
+                  <div class="w-full flex items-center rounded-2xl bg-white py-2.5 px-4 md:px-8" *ngIf="offlineShopByIdData?.companydetails?.social_media_links?.pinterest_link">
+                    <div class="w-8 md:w-10 h-8 md:h-10 rounded-lg overflow-hidden">
+                      <img class="w-full h-full object-cover" alt="pinterest" src="../assets/images/pinterest.png"/>
+                    </div>
+                    <a [href]="offlineShopByIdData?.companydetails?.social_media_links?.pinterest_link" target="_blank" class="block w-[calc(100%-32px)] md:w-[calc(100%-40)] font-medium whitespace-nowrap text-ellipsis overflow-clip px-4">{{offlineShopByIdData?.companydetails?.social_media_links?.pinterest_link}}</a>
+                  </div>
+
+                  <div class="w-full flex items-center rounded-2xl bg-white py-2.5 px-4 md:px-8" *ngIf="offlineShopByIdData?.companydetails?.social_media_links?.instagram_link">
+                    <div class="w-8 md:w-10 h-8 md:h-10 rounded-lg overflow-hidden">
+                      <img class="w-full h-full object-cover" alt="instagram" src="../assets/images/instagram.png"/>
+                    </div>
+                    <a [href]="offlineShopByIdData?.companydetails?.social_media_links?.instagram_link" target="_blank" class="block w-[calc(100%-32px)] md:w-[calc(100%-40)] font-medium whitespace-nowrap text-ellipsis overflow-clip px-4">{{offlineShopByIdData?.companydetails?.social_media_links?.instagram_link}}</a>
+                  </div>
+                  
+                  <div class="w-full flex items-center rounded-2xl bg-white py-2.5 px-4 md:px-8" *ngIf="offlineShopByIdData?.companydetails?.social_media_links?.linkedin_link">
+                    <div class="w-8 md:w-10 h-8 md:h-10 rounded-lg overflow-hidden">
+                      <img class="w-full h-full object-cover" alt="linkedin" src="../assets/images/linked.png"/>
+                    </div>
+                    <a [href]="offlineShopByIdData?.companydetails?.social_media_links?.linkedin_link" target="_blank" class="block w-[calc(100%-32px)] md:w-[calc(100%-40)] font-medium whitespace-nowrap text-ellipsis overflow-clip px-4">{{offlineShopByIdData?.companydetails?.social_media_links?.linkedin_link}}</a>
+                  </div>
+               
+                </div>
+                <div *ngIf="offlineShopByIdData?.companydetails?.social_media_links?.facebook_link.length == 0 &&  offlineShopByIdData?.companydetails?.social_media_links?.instagram_link.length == 0 && offlineShopByIdData?.companydetails?.social_media_links?.linkedin_link.length == 0 && offlineShopByIdData?.companydetails?.social_media_links?.pinterest_link.length == 0 && offlineShopByIdData?.companydetails?.social_media_links?.twitter_link.length == 0 && offlineShopByIdData?.companydetails?.social_media_links?.youtube_link.length == 0">
+                  <div class="w-full rounded-2xl bg-white py-4 px-4 md:px-8 mt-4">
+                    <span>No Social Link yet...</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+      <div class="w-full lg:w-5/12 border-t lg:border-t-0 lg:border-l border-gray_5 space-y-4 lg:space-y-9 py-7 lg:px-7 lg:mt-20">
+        <div class="w-full bg-white rounded-2xl p-4">
+          <div class="max-h-[224px] w-full h-full  overflow-hidden xl:aspect-square rounded-2xl">
+            <!-- implement amg map  -->
+            <google-map height="500px" width="100%" [zoom]="zoom" [center]="center" [options]="options" class="w-full h-56">
+              <map-marker
+              *ngFor="let marker of markers"
+              [position]="marker.position"
+              [label]="marker.label"
+              [title]="marker.title"
+              [options]="marker.options"
+            >
+            </map-marker>
+            </google-map>
+          </div>
+          <div class="font-medium pt-6">
+            <span class="block text-sm text-gray_3">Location</span>
+            <span class="block">{{offlineShopByIdData?.flat_no}} {{(offlineShopByIdData?.street_name) ? (offlineShopByIdData?.street_name + ',') : ''}} {{(offlineShopByIdData?.area_name) ? (offlineShopByIdData?.area_name + ',') : ''}} {{offlineShopByIdData?.city}}, {{offlineShopByIdData?.state}}, {{offlineShopByIdData?.pincode}}.</span>
+          </div>
+        </div>
+        <div class="w-full bg-white rounded-2xl space-y-6 p-4">
+          <div class="space-y-2.5">
+            <span class="block text-sm text-gray_3">Open Day</span>
+            <ul class="flex flex-col openday_list mt-4" *ngIf="offlineShopByIdData?.shop_days?.length > 0 && isShopOpen">
+              <li for="weekday-su" class="flex items-center" *ngFor="let day of offlineShopByIdData?.shop_days">
+                <span class="block w-[60px] text-base text-quicksilver text-gray_3" *ngIf="day.open">{{day.day ? day.day : '-'}}</span>
+                <span class="block text-sm" *ngIf="day.open">&nbsp;:&nbsp;&nbsp;</span>
+                <span class="block text-sm" *ngIf="day.open">{{day.starttime}} - {{day.endtime}}</span>
+              </li>
+            </ul>
+            <p class="block" *ngIf="!isShopOpen">No Open days...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isLoading"
+  class="absolute inset-0 w-full h-full flex items-center justify-center bg-slate-300/30 backdrop-blur-sm z-10">
+  <div class="flex flex-col items-center justify-center">
+    <div class="w-12 h-12 rounded-full animate-spin border-4 border-solid border-primary border-t-transparent"></div>
+    <p class="block text-base font-medium pt-2">Plase wait</p>
+  </div>
+</div>

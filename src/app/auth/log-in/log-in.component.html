@@ -1,0 +1,39 @@
+
+<main>
+  <div class="w-full h-screen flex">
+    <div class="w-1/2 xl:w-5/12 h-full">
+      <div class="w-full h-full flex items-center justify-center relative p-5">
+        <img src="../assets/images/svg/fe-logo.svg" alt="Festum Evento Pvt Ltd." class="absolute top-24 left-24 w-32 h-32 z-20">
+        <div class="relative max-w-lg w-full z-10">
+          <img src="../assets/images/svg/vector.svg" class="w-full mt-auto bounce">
+        </div>
+        <img src="../assets/images/auth-bg.png" alt="Background Image" class="absolute inset-0 w-full h-full">
+      </div>
+    </div>
+    <div class="w-1/2 xl:w-7/12 h-full">
+      <div class="w-full h-full flex items-center justify-center p-5">
+        <form #logInNgForm="ngForm" [formGroup]="logInForm" class="max-w-lg w-full">
+          <strong class="text-4xl">Log In</strong>
+          <div class="max-w-md w-full mt-5">
+            <input type="text" [formControlName]="'adminid'" name="username" id="username" class="w-full bg-gray_4 text-gray_1 placeholder:text-gray_1 outline-none rounded-lg py-2.5 px-5" placeholder="Enter Username">
+          </div>
+          <div class="max-w-md w-full mt-5">
+            <input type="password" [formControlName]="'password'" name="password" id="password" class="w-full bg-gray_4 text-gray_1 placeholder:text-gray_1 outline-none rounded-lg py-2.5 px-5" placeholder="Enter Password">
+          </div>
+          <!-- <div class="max-w-md w-full flex items-center mt-5">
+            <input type="checkbox" name="checkbox" id="checkbox" class="accent-primary w-4 h-4">
+            <span class="block ml-2">Remember me</span>
+          </div> -->
+          <div class="max-w-md w-full flex items-center mt-5">
+            <button type="submit" class="relative border border-primary outline-none rounded-[4px] px-8 py-2" (click)="logIn()">
+              <span [ngClass]="{'opacity-0': logInForm.disabled}" class="text-primary">Login</span>
+              <div class="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex items-center" *ngIf="logInForm.disabled">
+                <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+              </div>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>

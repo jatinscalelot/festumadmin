@@ -1,0 +1,663 @@
+<div class="event_overView space-y-5 lg:space-y-7 xl:space-y-9 p-5 xl:p-8 2xl:p-10">
+  <div class="flex items-center cursor-pointer space-x-3" [routerLink]="'/event'">
+    <i class="icon-left_arrow text-2xl text-gray_1"></i>
+    <span class="text-gray_1 font-medium">Back</span>
+  </div>
+  <div class="w-dull rounded-2xl bg-light py-6 px-7">
+    <img [src]="!!(eventByIdData?.banner) ? constants?.FEBaseImageURL + eventByIdData.banner : constants?.defaultImage"
+      alt="banner" class="h-[320px] object-cover rounded-2xl w-full" />
+    <div class="flex flex-wrap xl:flex-nowrap items-center justify-end xl:justify-between space-y-3 xl:space-y-0">
+      <div class="xl:max-w-2xl w-full xl:pr-3 pt-6">
+        <div class="flex items-center justify-between xl:justify-normal">
+          <span
+            class="block max-w-[330px] w-full text-2xl font-semibold whitespace-nowrap text-ellipsis overflow-clip mr-4">{{eventByIdData?.name}}</span>
+          <div class="flex items-center">
+            <span *ngIf="eventByIdData?.is_approved" class="block text-xs whitespace-nowrap bg-light_green text-deep_green rounded-lg py-2 px-3 mr-4">Verified</span>
+              <span *ngIf="!eventByIdData?.is_approved" class="block text-xs whitespace-nowrapbg-[#FEE6E6] text-[#C53434] rounded-lg py-2 px-3 mr-4">Unverified</span>
+            <span *ngIf="eventByIdData?.accept_booking" class="block text-xs whitespace-nowrap bg-light_green text-deep_green rounded-lg py-2 px-3 mr-4">Booking Accepting</span>
+              <span *ngIf="!eventByIdData?.accept_booking" class="block text-xs whitespace-nowrap bg-[#FEE6E6] text-[#C53434] rounded-lg py-2 px-3 mr-4">Booking Not Accepting</span>
+            <span class="block icon-edit1 text-2xl text-primary"></span>
+          </div>
+        </div>
+        <div class="flex justify-between pt-5">
+          <div class="space-y-3">
+            <span class="block text-sm font-medium text-gray_3">Ratings</span>
+            <div class="flex space-x-1.5">
+              <p-rating [(ngModel)]="eventByIdData.ratings" [readonly]="true" [cancel]="false" [iconOnStyle]="{'color':'#C53434'}"></p-rating>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <span class="block text-sm font-medium text-gray_3">Event Type</span>
+            <span class="block font-medium">{{eventByIdData?.event_category?.event_type == 'b2b' ? 'B2B' : 'Public Party'}}</span>
+          </div>
+          <div class="space-y-3">
+            <span class="block text-sm font-medium text-gray_3">Status</span>
+            <span class="block font-medium">{{eventByIdData?.is_live ? 'Live' : 'Not Live'}}</span>
+          </div>
+          <div class="space-y-3">
+            <span class="block text-sm font-medium text-gray_3">Event Category</span>
+            <span class="block font-medium">{{eventByIdData?.event_category ?
+              eventByIdData?.event_category?.categoryname : eventByIdData?.other}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col items-center xl:space-y-2">
+        <!-- <span class="block text-sm bg-[#FEE6E6] text-[#C53434] rounded-lg ml-3 xl:ml-0 px-4 py-2.5">Cancel Event</span> -->
+        <strong class="text-xl xl:text-2xl 2xl:text-28">{{eventByIdData?.startingat ? eventByIdData?.startingat : 0}}INR</strong> 
+        <div class="group">
+          <button class="flex items-center text-xs font-medium whitespace-nowrap bg-primary group-hover:bg-white anim border border-primary cursor-pointer rounded-lg py-2 px-5" color="primary" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="!!(eventByIdData?.accept_booking)  && scanAttendees?.length">
+            <span _ngcontent-ng-c835616354="" class="icon-document_upload sm:text-[18px] font-medium text-white group-hover:text-primary anim mr-1"></span>
+            <span class="text-white group-hover:text-primary anim">Export</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <mat-tab-group animationDuration="0ms" class="mt-12">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="text-gray_1 tracking-tight">Overview</span>
+        </ng-template>
+        <div class="w-full overflow-hidden pt-32" *ngIf="eventByIdData?.about?.about_event != ''">
+          <div class="flex flex-wrap xl:-mx-7">
+            <div class="w-full lg:w-7/12 border-b xl:border-b-0 xl:border-r border-gray_5 space-y-4 lg:space-y-9 pt-1.5 xl:px-7 pb-5 mb-5">
+              <div class="w-full">
+                <strong class="block text-lg">About Event</strong>
+                <p [innerHtml]="(aboutevent) ? eventByIdData?.about?.about_event : eventByIdData?.about?.about_event | slice:0:180"
+                  class="text-gray_2 pt-4 text-justify"></p>
+                <a href="javascript:;" (click)="aboutevent=true"
+                  *ngIf="!aboutevent && eventByIdData?.about?.about_event.length > 180"
+                  class="text-magicPotion text-sm font-semibold cursor-pointer">...Read More</a>
+                <a href="javascript:;" (click)="aboutevent=false"
+                  *ngIf="aboutevent && eventByIdData?.about?.about_event.length > 180"
+                  class="text-magicPotion text-sm font-semibold cursor-pointer">...Read Less</a>
+              </div>
+              <div class="w-full">
+                <div class="flex justify-between">
+                  <strong class="text-lg">Photo</strong>
+                  <span *ngIf="eventByIdData?.photos?.length > 0" class="font-medium text-gray_2"
+                    (click)="openImageAndVideoDialog(eventByIdData?.photos, true, false)">View All</span>
+                </div>
+                <div class="w-full bg-white rounded-2xl px-7 py-4 mt-4" *ngIf="!eventByIdData?.photos || eventByIdData?.photos?.length == 0"><span>No Photos
+                    Found...</span></div>
+                <div class="flex items-center space-x-3 -mx-2" *ngIf="eventByIdData?.photos || eventByIdData?.photos?.length > 0">
+                  <div class="p-2" *ngFor="let img of eventByIdData?.photos">
+                    <div class="w-[120px] h-[120px] relative group rounded-2xl overflow-hidden"
+                      (click)="openImageAndVideoDialog([img], true, false, false)">
+                      <p-image [src]="!!(img?.url) ? constants?.FEBaseImageURL + img?.url : constants?.defaultImage"
+                        imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full"
+                        [preview]="false"></p-image>
+                      <div
+                        class="opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 flex items-center justify-center absolute inset-0 transition-all duration-300 cursor-pointer z-10">
+                        <i class="icon-view text-2xl text-white"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full">
+                <div class="flex justify-between">
+                  <strong class="text-lg">Video</strong>
+                  <span *ngIf="eventByIdData?.videos?.length > 0" class="font-medium text-gray_2"
+                    (click)="openImageAndVideoDialog(eventByIdData?.videos, false, false)">View All</span>
+                </div>
+                <div class="w-full bg-white rounded-2xl px-7 py-4 mt-4" *ngIf="!eventByIdData?.videos || eventByIdData?.videos?.length == 0"><span>No Videos
+                    Found...</span></div>
+                <div class="flex items-center space-x-3 -mx-2" *ngIf="eventByIdData?.videos?.length > 0">
+                  <div class="p-2" *ngFor="let video of eventByIdData?.videos">
+                    <div class="w-[120px] h-[120px] relative group rounded-2xl overflow-hidden"
+                      (click)="openImageAndVideoDialog([video], false, false, true)">
+                      <video
+                        [src]="!!(video?.url) ? constants?.FEBaseImageURL + video?.url + '#t=0.5' : constants?.defaultImage"
+                        class="w-full h-full object-cover bg-white"></video>
+                      <div
+                        class="opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 flex items-center justify-center absolute inset-0 transition-all duration-300 cursor-pointer z-10">
+                        <i class="icon-view text-2xl text-white"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Accordion -->
+              <div *ngIf="eventByIdData?.seating_arrangements && eventByIdData?.seating_arrangements?.length"
+                class="space-y-1.5">
+                <strong class="text-lg">Arrangement</strong>
+                <mat-accordion>
+                  <mat-expansion-panel *ngFor="let seating of eventByIdData?.seating_arrangements;let i = index;">
+                    <mat-expansion-panel-header class="px-5 py-6">
+                      <mat-panel-title class="space-x-7 flex items-center">
+                        <div class="w-10 text-center">
+                          <img alt="{{seating?.seating_item?.itemname}}" class="mx-auto h-10 max-w-full object-contain"
+                            [src]="!!(seating?.seating_item?.itemimage) ? constants?.FEBaseImageURL + seating?.seating_item?.itemimage : constants?.defaultImage" />
+                        </div>
+                        <strong>{{seating?.seating_item?.itemname}}</strong>
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <div class="space-y-6 py-6 px-6">
+                      <div class="flex">
+                        <div class="pr-5">
+                          <img alt="select-item" src="../assets/images/select-item.png" />
+                        </div>
+                        <div class="w-full space-y-2">
+                          <div class="flex items-center justify-between">
+                            <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
+                          </div>
+                          <div class="borders">
+                            <div class="" *ngFor="let arrangement of seating?.arrangements">
+                              <div class="flex flex-wrap items-center">
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">No of
+                                    {{seating?.seating_item?.itemname}}</span>
+                                  <span
+                                    class="block text-base font-bold text-quicksilver">{{arrangement?.number_of_seating_item}}</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
+                                  <span
+                                    class="block text-base font-bold text-quicksilver">{{((arrangement?.vertical_location
+                                    == 'FRONT') ? 'F' : (arrangement?.vertical_location == 'MIDDLE' ? 'M' : 'B'))}} -
+                                    {{((arrangement?.horizontal_location == 'LEFT') ? 'L' :
+                                    ((arrangement?.horizontal_location == 'CENTER') ? 'C' :
+                                    (arrangement?.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
+                                  *ngIf="(!seating?.seating_item?.isonlyperperson)">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">per
+                                    {{seating?.seating_item?.itemname}} person capacity</span>
+                                  <span
+                                    class="block text-base font-bold text-quicksilver">{{arrangement?.per_seating_person}}</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">Total person capacity</span>
+                                  <span
+                                    class="block text-base font-bold text-quicksilver">{{arrangement?.total_person}}</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
+                                  *ngIf="(!seating?.seating_item?.isonlyperperson)">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">Per
+                                    {{seating?.seating_item?.itemname}} Price</span>
+                                  <span
+                                    class="block text-base font-bold text-quicksilver">{{arrangement?.per_seating_price
+                                    || 0 | number:'1.2-2'}}</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
+                                  <span
+                                    class="block text-base font-bold text-quicksilver">{{arrangement?.per_person_price
+                                    || 0 | number:'1.2-2'}} INR</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
+                                  <span
+                                    class="block text-base font-bold text-japaneseIndigo">{{arrangement?.total_amount ||
+                                    0 | number:'1.2-2'}} INR</span>
+                                </div>
+                                <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <p class="block text-xs xl:text-sm text-quicksilver">Description</p>
+                                  <span class="text-base text-quicksilver font-bold"
+                                    [innerHTML]="arrangement?.description == '' || arrangement?.description == null ? '-' : arrangement?.description || 'null'"></span>
+                                </div>
+                                <div class="flex items-center pt-4 ml-auto"
+                                  *ngIf="(!seating?.seating_item?.isonlyperperson)">
+                                  <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize"
+                                    *ngIf="seating?.seating_item">Per {{seating?.seating_item?.itemname}}</span>
+                                  <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize"
+                                    *ngIf="seating?.seating_item == 'Standing'">Per Person</span>
+                                </div>
+                                <div class="flex items-center pt-4 ml-auto"
+                                  *ngIf="(seating?.seating_item?.isonlyperperson)">
+                                  <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize"
+                                    *ngIf="seating?.seating_item?.itemname">Per Person</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="flex">
+                        <div class="pr-5">
+                          <img alt="non-veg" src="../assets/images/non-veg.png" />
+                        </div>
+                        <div class="flex w-full space-y-2">
+                          <div class="min-w-[148px] pr-5">
+                            <p>Food</p>
+                            <span class="text-lg font-bold text-japaneseIndigo capitalize">{{(seating?.food == 'BOTH') ?
+                              'Veg & Non-Veg' : seating?.food}}</span>
+                          </div>
+                          <div class="border-l border-slate-500 px-4" *ngIf="seating?.food_description">
+                            <p class="pb-1 text-slate-400">Description</p>
+                            <p class="text-xs" [innerHTML]="seating?.food_description || ''"></p>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- photo section food  -->
+                      <div *ngIf="seating?.food_details?.length" class="media-upload-holder">
+
+                        <!-- media title  -->
+                        <div class="flex justify-between items-center">
+                          <h3 class="text-lg">Food Photos</h3>
+                          <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500"
+                            href="javascript:void(0);"
+                            (click)="openImageAndVideoDialog(seating?.food_details, true, false)">View All</a>
+                        </div>
+                        <!-- photo-holder -->
+                        <div class="w-full">
+                          <div class="flex flex-wrap overflow-hidden -mx-2">
+                            <div *ngFor="let img of seating?.food_details" class="w-full lg:w-2/12 p-2 group hover">
+                              <div class="rounded relative overflow-hidden bg-white h-24"
+                                (click)="openImageAndVideoDialog([img], true, false, false)">
+                                <p-image
+                                  [src]="!!(img?.url) ? constants?.FEBaseImageURL + img?.url : constants?.defaultImage"
+                                  imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full"
+                                  [preview]="false"></p-image>
+                                <div
+                                  class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                                  <i class="pi pi-eye text-2xl text-white"></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="flex">
+                        <div class="pr-5">
+                          <img alt="not-include" src="../assets/images/not-include.png" />
+                        </div>
+                        <div class="flex w-full space-y-2">
+                          <div class="min-w-[148px] pr-5">
+                            <p>Equipment</p>
+                            <span class="text-lg font-bold text-japaneseIndigo capitalize">{{seating?.equipment ? 'Not Include' : 'Include'}}</span>
+                          </div>
+                          <div class="border-l border-slate-500 px-4" *ngIf="seating?.equipment_description">
+                            <p class="pb-1 text-slate-400">Description</p>
+                            <p class="text-xs" [innerHTML]="seating?.equipment_description || ''"></p>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- photo section equipment  -->
+                      <div *ngIf="seating?.equipment_details?.length" class="media-upload-holder">
+
+                        <!-- media title  -->
+                        <div class="flex justify-between items-center">
+                          <h3 class="text-lg">Equipment Photos</h3>
+                          <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500"
+                            href="javascript:void(0);"
+                            (click)="openImageAndVideoDialog(seating?.equipment_details, true, false)">View All</a>
+                        </div>
+                        <!-- photo-holder -->
+                        <div class="w-full">
+                          <div class="flex flex-wrap overflow-hidden -mx-2">
+                            <div *ngFor="let img of seating?.equipment_details"
+                              class="w-full lg:w-2/12 p-2 group hover">
+                              <div class="rounded relative overflow-hidden bg-white h-24"
+                                (click)="openImageAndVideoDialog([img], true, false, false)">
+                                <p-image
+                                  [src]="!!(img?.url) ? constants?.FEBaseImageURL + img?.url : constants?.defaultImage"
+                                  imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full"
+                                  [preview]="false"></p-image>
+                                <div
+                                  class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                                  <i class="pi pi-eye text-2xl text-white"></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+              <div class="w-full">
+                <strong class="block text-lg">Company Details</strong>
+                <div class="w-full bg-white rounded-2xl px-7 py-4 mt-4"
+                  *ngIf="!eventByIdData?.companydetail?.name || !eventByIdData?.companydetail?.about">
+                  <span class="text-gray_2 tracking-tight font-medium">No Details Found...</span>
+                </div>
+                <div class="w-full bg-white rounded-2xl px-7 py-4 mt-4"
+                  *ngIf="eventByIdData?.companydetail?.name || eventByIdData?.companydetail?.about">
+                  <span class="block font-medium">{{ eventByIdData?.companydetail?.name }}</span>
+                  <p class="text-gray_2 tracking-tight font-ligh3"
+                    [innerHtml]="(showMore) ? eventByIdData?.companydetail?.about : eventByIdData?.companydetail?.about | slice:0:180">
+                  </p>
+                  <a href="javascript:;" (click)="showMore=true"
+                    *ngIf="!showMore && eventByIdData?.companydetail?.about.length > 180"
+                    class="text-magicPotion text-sm font-semibold">...Read More</a>
+                  <a href="javascript:;" (click)="showMore=false"
+                    *ngIf="showMore && eventByIdData?.companydetail?.about.length > 180"
+                    class="text-magicPotion text-sm font-semibold">...Read Less</a>
+                </div>
+              </div>
+              <div class="w-full">
+                <strong class="block text-lg">Terms And Conditions</strong>
+                <div class="w-full bg-white rounded-2xl px-7 py-4 mt-4" *ngIf="!eventByIdData?.tandc?.t_and_c">
+                  <span>No Details Found...</span>
+                </div>
+                <div class="w-full bg-white rounded-2xl px-7 py-4 mt-4" *ngIf="eventByIdData?.tandc?.t_and_c">
+                  <span class="block font-medium">{{ eventByIdData?.companydetail?.name }}</span>
+                  <p class="text-gray_2 tracking-tight font-ligh3"
+                    [innerHtml]="(tandcShow) ? eventByIdData?.tandc?.t_and_c : eventByIdData?.tandc?.t_and_c | slice:0:180">
+                  </p>
+                  <a href="javascript:;" (click)="tandcShow=true"
+                    *ngIf="!tandcShow && eventByIdData?.tandc?.t_and_c.length > 180"
+                    class="text-magicPotion text-sm font-semibold">...Read More</a>
+                  <a href="javascript:;" (click)="tandcShow=false"
+                    *ngIf="tandcShow && eventByIdData?.tandc?.t_and_c?.length > 180"
+                    class="text-magicPotion text-sm font-semibold">...Read Less</a>
+                </div>
+              </div>
+              <div class="w-full">
+                <div class="flex justify-between">
+                  <strong class="text-lg">Company Photo</strong>
+                  <span *ngIf="eventByIdData?.companydetail?.photos?.length > 0" class="font-medium text-gray_2"
+                    (click)="openImageAndVideoDialog(eventByIdData?.companydetail?.photos, true, false,false)">View All</span>
+                </div>
+                <div class="w-full bg-white rounded-2xl px-7 py-4 mt-4" *ngIf="!eventByIdData?.companydetail || eventByIdData?.companydetail?.photos.length == 0"><span>No Photos Found...</span></div>
+                <div class="w-full bg-white rounded-2xl px-7 py-4 mt-4" *ngIf="eventByIdData?.companydetail?.photos?.length > 0">
+                  <div class="p-2" *ngFor="let img of eventByIdData?.companydetail?.photos">
+                    <div class="w-[120px] h-[120px] relative group rounded-2xl overflow-hidden"
+                      (click)="openImageAndVideoDialog([img], true, false, false)">
+                      <p-image [src]="!!(img?.url) ? constants?.FEBaseImageURL + img?.url : constants?.defaultImage"
+                        imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full"
+                        [preview]="false"></p-image>
+                      <div
+                        class="opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 flex items-center justify-center absolute inset-0 transition-all duration-300 cursor-pointer z-10">
+                        <i class="icon-view text-2xl text-white"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full">
+                <div class="flex justify-between">
+                  <strong class="text-lg">Company Video</strong>
+                  <span *ngIf="eventByIdData?.companydetail?.videos.length > 0" class="font-medium text-gray_2"
+                    (click)="openImageAndVideoDialog(eventByIdData?.companydetail?.videos, false, false)">View
+                    All</span>
+                </div>
+                <div class="w-full bg-white rounded-2xl px-7 py-4 mt-4" *ngIf="!eventByIdData?.companydetail || eventByIdData?.companydetail?.videos.length == 0"><span>No Videos Found...</span></div>
+                <div class="w-full bg-white rounded-2xl px-7 py-4 mt-4" *ngIf="eventByIdData?.companydetail?.videos.length > 0">
+                  <div class="p-2" *ngFor="let video of eventByIdData?.companydetail?.videos">
+                    <div class="w-[120px] h-[120px] relative group rounded-2xl overflow-hidden"
+                      (click)="openImageAndVideoDialog([video], false, false, true)">
+                      <video
+                        [src]="!!(video?.url) ? constants?.FEBaseImageURL + video?.url + '#t=0.5' : constants?.defaultImage"
+                        class="w-full h-full object-cover bg-white"></video>
+                      <div
+                        class="opacity-0 group-hover:opacity-100 bg-black bg-opacity-50 flex items-center justify-center absolute inset-0 transition-all duration-300 cursor-pointer z-10">
+                        <i class="icon-view text-2xl text-white"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full" *ngIf="eventByIdData?.tandc?.facebook && eventByIdData?.tandc?.facebook != '' ||
+              eventByIdData?.tandc?.twitter && eventByIdData?.tandc?.twitter != '' ||
+              eventByIdData?.tandc?.youtube && eventByIdData?.tandc?.youtube != '' ||
+              eventByIdData?.tandc?.pinterest && eventByIdData?.tandc?.pinterest != '' ||
+              eventByIdData?.tandc?.instagram && eventByIdData?.tandc?.instagram != '' ||
+              eventByIdData?.tandc?.linkedin && eventByIdData?.tandc?.linkedin != ''">
+                <strong class="block text-lg">Social Media</strong>
+                <div class="flex items-center space-x-4 lg:space-x-5 xl:space-x-6 2xl:space-x-7 pt-4">
+                  <a class="block w-9 lg:w-10 xl:w-11 2xl:w-12 h-9 lg:h-10 xl:h-11 2xl:h-12"
+                    *ngIf="eventByIdData?.tandc?.twitter != ''" [href]="eventByIdData?.tandc?.twitter" target="_blank">
+                    <img src="./assets/images/twitter.png" alt="Twitter">
+                  </a>
+                  <a class="block w-9 lg:w-10 xl:w-11 2xl:w-12 h-9 lg:h-10 xl:h-11 2xl:h-12"
+                  *ngIf="eventByIdData?.tandc?.linkedin != ''" [href]="eventByIdData?.tandc?.linkedin"
+                  target="_blank">
+                    <img src="./assets/images/linked.png" alt="Linked In">
+                  </a>
+                  <a class="block w-9 lg:w-10 xl:w-11 2xl:w-12 h-9 lg:h-10 xl:h-11 2xl:h-12"
+                    *ngIf="eventByIdData?.tandc?.facebook != ''" [href]="eventByIdData?.tandc?.facebook"
+                    target="_blank">
+                    <img src="./assets/images/facebook.png" alt="Facebook">
+                  </a>
+                  <a class="block w-9 lg:w-10 xl:w-11 2xl:w-12 h-9 lg:h-10 xl:h-11 2xl:h-12"
+                    *ngIf="eventByIdData?.tandc?.pinterest != ''" [href]="eventByIdData?.tandc?.pinterest"
+                    target="_blank">
+                    <img src="./assets/images/pinterest.png" alt="Pinterest">
+                  </a>
+                  <a class="block w-9 lg:w-10 xl:w-11 2xl:w-12 h-9 lg:h-10 xl:h-11 2xl:h-12"
+                    *ngIf="eventByIdData?.tandc?.instagram != ''" [href]="eventByIdData?.tandc?.instagram"
+                    target="_blank">
+                    <img src="./assets/images/instagram.png" alt="Instagram">
+                  </a>
+                  <a class="block w-9 lg:w-10 xl:w-11 2xl:w-12 h-9 lg:h-10 xl:h-11 2xl:h-12"
+                    *ngIf="eventByIdData?.tandc?.youtube != ''" [href]="eventByIdData?.tandc?.youtube" target="_blank">
+                    <img src="./assets/images/youtube.png" alt="YouTube">
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="w-full lg:w-5/12 space-y-4 xl:space-y-9 pt-1.5 lg:px-7">
+              <div class="w-full bg-white rounded-2xl p-4">
+                <div class="max-h-[224px] w-full h-full overflow-hidden xl:aspect-square rounded-2xl">
+                  <!-- <agm-map [latitude]="eventByIdData?.event_location?.location?.coordinates[1]"
+                    [longitude]="eventByIdData?.event_location?.location?.coordinates[0]" [zoom]="zoom"
+                    class="w-full h-56">
+                    <agm-marker [latitude]="eventByIdData?.event_location?.location?.coordinates[1]"
+                      [longitude]="eventByIdData?.event_location?.location?.coordinates[0]"></agm-marker>
+                  </agm-map> -->
+                  <google-map height="500px" width="100%" [zoom]="zoom" [center]="center" [options]="options" class="w-full h-56">
+                    <map-marker
+                    *ngFor="let marker of markers"
+                    [position]="marker.position"
+                    [label]="marker.label"
+                    [title]="marker.title"
+                    [options]="marker.options"
+                  >
+                  </map-marker>
+                  </google-map>
+                </div>
+                <div class="font-medium pt-6">
+                  <span class="block text-sm text-gray_3">Location</span>
+                  <span class="block">{{eventByIdData?.event_location ? eventByIdData?.event_location?.flat_no + ' - ' +
+                    eventByIdData?.event_location?.street_name + ', ' + eventByIdData?.event_location?.area_name + ', ' +
+                    eventByIdData?.event_location?.city + ', ' + eventByIdData?.event_location?.state : 'Location not Found...' }}</span>
+                </div>
+              </div>
+              <div class="w-full bg-white rounded-2xl space-y-6 p-4" *ngIf="eventByIdData?.about?.start_date.length > 0 || eventByIdData?.about?.end_date.length > 0">
+                <div class="font-medium">
+                  <span class="block text-sm text-gray_3">Date</span>
+                  <div class="flex items-center">
+                    <span class="block" *ngIf="eventByIdData?.about?.start_date.length > 0">{{ eventByIdData?.about?.start_date | date:'dd MMM, yyyy' }}&nbsp;&nbsp;-&nbsp;&nbsp;</span>
+                    <span class="block" *ngIf="eventByIdData?.about?.end_date.length > 0">{{ eventByIdData?.about?.end_date | date:'dd MMM, yyyy' }}</span>
+                  </div>
+                </div>
+                <div class="font-medium">
+                  <span class="block text-sm text-gray_3">Time</span>
+                  <span class="block">09:00 AM - 06:00 PM</span>
+                </div>
+              </div>
+              <!-- first Design of Discount -->
+              <!-- <div class="w-full relative bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] rounded-2xl p-5">
+                <div class="font-medium">
+                  <span class="block" *ngIf="eventByIdData?.discounts.length == 0">
+                    <div class="w-full space-y-4">
+                      <h4 class="text-white">No Discount Found...</h4>
+                    </div>
+                  </span>
+                  <span *ngIf="eventByIdData?.discounts.length > 0">
+                    <span class="block" *ngFor="let discount of eventByIdData?.discounts || []">
+                      <div class="w-full space-y-4">
+                        <strong class="block text-xl text-white">{{discount?.discountname}}</strong>
+                        <strong class="block text-32">{{discount?.discount}}%</strong>
+                        <div class="space-y-2">
+                          <span class="text-xs text-white font-normal block">{{discount?.description}}</span>
+                        </div>
+                      </div>
+                    </span>
+                </span>
+                </div>
+                <div class="absolute -bottom-5 -right-5" style="transform: rotate(270deg);">
+                  <img src="./assets/images/event-subscription.png">
+                </div>
+              </div> -->
+              
+              <!-- Second Design of Discount -->
+              <div class="w-full relative border border-dashed border-primary bg-[#F0F3F9] rounded-2xl p-5">
+                <div class="font-medium">
+                  <span class="block" *ngIf="eventByIdData?.discounts.length == 0">
+                    <div class="w-full space-y-4">
+                      <span class="block text-xl text-primary font-semibold">No Discount Found...</span>
+                    </div>
+                  </span>
+                  <span *ngIf="eventByIdData?.discounts.length > 0">
+                    <span class="block" *ngFor="let discount of eventByIdData?.discounts || []">
+                      <div class="w-full space-y-4">
+                        <strong class="block text-xl text-[#8897AE]">{{discount?.discountname}}</strong>
+                        <strong class="block text-32">{{discount?.discount}}%</strong>
+                        <div class="space-y-2">
+                          <span class="text-xs text-[#455468] font-normal block">{{discount?.description}}</span>
+                        </div>
+                      </div>
+                    </span>
+                </span>
+                </div>
+              </div>
+              <div class="book-ticket attendees-panel" *ngIf="bookedAttendees?.length">
+                <mat-accordion class="space-y-4">
+                  <mat-expansion-panel (opened)="attendeesOpenState = true" (closed)="attendeesOpenState = false">
+                    <mat-expansion-panel-header class="flex justify-between bg-primary px-5">
+                      <mat-panel-title class="text-sm">
+                        <span class="block text-sm font-bold text-white">Book Ticket</span>
+                        <span class="block text-sm font-bold text-white mx-auto -translate-x-5">Total&nbsp;Amount</span>
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="container max-h-[180px] overflow-y-auto pl-4 pr-5" (scroll)="onScroll($event)">
+                      <div *ngFor="let attendee of bookedAttendees;let i = index;" >
+                        <div class="bg-white" *ngFor="let seat of attendee?.seats || []">
+                          <div class="flex justify-between  border-brightGray py-2" *ngFor="let arrangement of seat?.arrangements || []" [ngClass]="{'border-t': i !== 0}">
+                            <span class="text-sm font-bold text-japaneseIndigo w-1/3">{{arrangement?.ItemCount || 0}} {{((arrangement.vertical_location == 'FRONT') ? 'F' : (arrangement.vertical_location == 'MIDDLE' ? 'M' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
+                            <span class="text-sm font-bold text-japaneseIndigo w-1/3 text-center">{{seat?.seating_item?.itemname}}</span>
+                            <span class="text-sm font-bold text-japaneseIndigo w-1/3 text-right">₹{{arrangement?.totalAmountItemCount | number: '1.2-2'}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+                </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="text-gray_1 tracking-tight">Review</span>
+        </ng-template>
+        <div class="w-full overflow-hidden pt-32">
+          <div class="w-full">
+            <div *ngIf="eventByIdData?.reviews.length == 0" class="w-full bg-white rounded-2xl px-7 py-4"><div class="flex justify-between">No Reviews Found...</div> </div>
+            <div *ngIf="eventByIdData?.reviews.length > 0" class="flex flex-col space-y-6">
+              <div *ngFor="let reviews of eventByIdData?.reviews" class="flex justify-between">
+                <div class="flex items-start pr-3">
+                  <img class="w-14 h-14 rounded-full overflow-hidden object-cover" [src]="!!(reviews?.userid?.profilepic) ? constants?.FEBaseImageURL + reviews?.userid?.profilepic : constants.userDefaultImage" alt="User">
+                  <div class="pl-4">
+                    <strong class="block text-lg">{{ reviews?.userid?.name }}</strong>
+                    <p class="tracking-tight text-gray_2 pt-1">{{ reviews?.review }}</p>
+                  </div>
+                </div>
+                <div class="">
+                  <div class="flex space-x-1.5">
+                    <p-rating [(ngModel)]="reviews.ratings" [readonly]="true" [cancel]="false"></p-rating>
+                  </div>
+                  <span class="block font-medium whitespace-nowrap pt-3 ">{{ reviews?.createdAt | date:'dd MMM, yyyy' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="text-gray_1 tracking-tight">Attendees</span>
+        </ng-template>
+        <div class="w-full overflow-hidden pt-32">
+          <div class="flex flex-wrap">
+            <div class="w-full lg:w-8/12 space-y-2.5" *ngIf="scanAttendees && scanAttendees?.length">
+              <div class="accordions bg-white rounded">
+                <div *ngFor="let attendee of scanAttendees;let i = index;" class="accordion_item p-0 cursor-pointer relative mb-5">
+                  <div #accordionClick (click)="toggleAccordion($event, i)" class="title_tab bg-white px-5 py-2.5 flex justify-between items-center rounded-md accordion">
+                    <div class="space-y-2">
+                      <div class="flex items-center space-x-3">
+                        <span class="block font-semibold text-lg">{{attendee?.userid?.name}}</span>
+                        <span class="input-titel font-bold text-[#097E76] pb-0" *ngIf="attendee && attendee?.invoice_no">#{{attendee?.invoice_no}}</span>
+                      </div>
+                      <p class="text-quicksilver text-xs font-bold flex items-center" *ngIf="attendee && attendee?.createdAt">{{attendee?.createdAt | date:'dd MMM, yyyy  hh:mm a'}}</p>
+                    </div>
+                    <div class="space-y-1">
+                      <strong class="block text-lg" *ngIf="attendee && attendee?.amount">₹{{attendee?.amount | number: '1.2-2'}}</strong>
+                      <span class="block input-titel font-semibold text-primary text-right" *ngIf="attendee && attendee?.booked_tickets">{{attendee?.booked_tickets}} Ticket</span>
+                    </div>
+                  </div>
+                  <div class="border-t panel overflow-y-auto">
+                    <div class="inner_content i_c px-5 py-6">
+                      <div>
+                        <div *ngFor="let seat of attendee?.seats || []">
+                          <div class="flex- items-center justify-between" *ngFor="let arrangement of seat?.arrangements || []">
+                            <div class="flex justify-between w-full text-quicksilver text-sm font-bold text-left">
+                              <span class="block w-1/6 py-1">{{seat?.seating_item?.itemname}}</span>
+                              <span class="block w-2/6 py-1">{{arrangement?.vertical_location}} - {{arrangement?.horizontal_location}}</span>
+                              <span class="block w-2/6 py-1">{{arrangement?.ItemCount || 0}} Ticket Booked</span>
+                              <span class="block w-1/6 py-1 text-right">₹{{arrangement?.totalAmountItemCount | number: '1.2-2'}}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="attendees event_overview_attendees flex flex-wrap items-center justify-center" *ngIf="scanAttendees && scanAttendees?.length">
+                <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getAttendeesWithScan($event)"></p-paginator>
+              </div>
+            </div>
+            <div class="w-full lg:w-8/12 space-y-2.5" *ngIf="(!scanAttendees || !scanAttendees?.length)">
+              <div  class="w-full bg-white rounded-2xl px-7 py-4">
+                <div class="flex justify-between">No attendees Found...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <!-- bottom-bar -->
+  <div class="bg-light rounded-2xl pb-4">
+    <div class="flex flex-wrap items-center justify-between max-w-7xl mx-auto px-5 xl:px-8">
+      <div class="flex items-center space-x-2 pt-4">
+        <span class="block pr-5 border-r border-brightGray"><span class="text-quicksilver font-normal">{{'Sold'}} :</span>
+          {{ eventByIdData?.total_booked_seats || 0}}
+        </span>
+        <span class="block px-5"><span class="text-quicksilver font-normal">{{'Unsold'}}  :</span> {{eventByIdData?.total_available_seats || 0}}</span>
+        <span class="block px-5"><span class="text-quicksilver font-normal">Booked  :</span> {{eventByIdData?.total_booked_amount || 0}} INR</span>
+  
+      </div>
+      <div class="flex items-center space-x-2 pt-4">
+        <span class="text-xs font-bold text-quicksilver whitespace-nowrap">{{eventByIdData?.total_booked_seats || 0}} {{'Sold'}}</span>
+        <div class="w-32 h-1.5">
+          <p-progressBar [styleClass]="'h-1.5'" [value]="((eventByIdData?.total_booked_seats || 0) * 100) / (eventByIdData?.total_seats || 0)" [showValue]="false"></p-progressBar>
+        </div>
+        <span class="text-xs font-bold text-quicksilver whitespace-nowrap">{{eventByIdData?.total_available_seats || 0}} {{'Unsold'}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="isLoading"
+  class="absolute inset-0 w-full h-full flex items-center justify-center bg-slate-300/30 backdrop-blur-sm z-10">
+  <div class="flex flex-col items-center justify-center">
+    <div class="w-12 h-12 rounded-full animate-spin border-4 border-solid border-primary border-t-transparent"></div>
+    <p class="block text-base font-medium pt-2">Plase wait</p>
+  </div>
+</div>
+
+
+
+<app-image-and-video-preview *ngIf="isOpenPopup" (openClosePopup)="closePop($event)" [isSingleVideo]="isSingleVideo"
+  [isImageOrVideoFlag]="isImage" [isCompanyImagesAndVideo]="companyIAndV"
+  [expectedProp]="imagesOrVideosArr"></app-image-and-video-preview>

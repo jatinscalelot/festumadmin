@@ -1,0 +1,322 @@
+<div class="w-full h-full overflow-y-auto space-y-5 lg:space-y-7 xl:space-y-9 p-5 xl:p-8 2xl:p-10">
+  <div class="flex flex-wrap xl:flex-nowrap items-start justify-between">
+    <div class="flex flex-wrap sm:flex-nowrap space-y-4 sm:space-y-0 sm:space-x-4 pb-5 mr-5">
+      <div class="max-w-[288px] w-full user_details border border-gray_5 rounded-xl space-y-4 p-3.5 md:p-4 lg:p-5">
+        <div class="flex items-center justify-between">
+          <span class="block text-sm whitespace-nowrap text-gray_1 pr-1">Offline Offers</span>
+          <div class="bg-light_primary rounded-lg">
+            <span
+              class="icon-offers text-sm lg:text-base w-7 md:w-8 lg:w-9 h-7 md:h-8 lg:h-9 flex items-center justify-center text-primary"></span>
+          </div>
+        </div>
+        <div class="w-full">
+          <span class="block text-xl md:text-22 lg:text-2xl xl:text-28 font-bold">{{totalOnlineDataList}}</span>
+          <div class="flex items-center space-x-2 mt-2">
+            <div class="flex items-center space-x-1 bg-gray_6 rounded-md p-1">
+              <span class="icon-up_arrow text-10 text-persion_green"></span>
+              <span class="block text-xs text-persion_green">16.24 %</span>
+            </div>
+            <div class="flex items-center">
+              <span class="block text-sm text-gray_1">This Month</span>
+              <span class="icon-down_arrow1 text-gray_1"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="max-w-[288px] w-full user_details border border-gray_5 rounded-xl space-y-4 p-3.5 md:p-4 lg:p-5">
+        <div class="flex items-center justify-between" [routerLink]="'/event-overview'">
+          <span class="block text-sm whitespace-nowrap text-gray_1 pr-1">Online Offers</span>
+          <div class="bg-light_primary rounded-lg">
+            <span
+              class="icon-offers text-sm lg:text-base w-7 md:w-8 lg:w-9 h-7 md:h-8 lg:h-9 flex items-center justify-center text-primary"></span>
+          </div>
+        </div>
+        <div class="w-full">
+          <span class="block text-xl md:text-22 lg:text-2xl xl:text-28 font-bold">{{totalOfflineDataList}}</span>
+          <div class="flex items-center space-x-2 mt-2">
+            <div class="flex items-center space-x-1 bg-gray_6 rounded-md p-1">
+              <span class="icon-up_arrow text-10 text-persion_green"></span>
+              <span class="block text-xs text-persion_green">16.24 %</span>
+            </div>
+            <div class="flex items-center">
+              <span class="block text-sm text-gray_1">This Month</span>
+              <span class="icon-down_arrow1 text-gray_1"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-2">
+      <div class="border border-gray_1 cursor-pointer rounded-lg py-2.5 sm:py-2.5 2xl:py-3.5 px-5 lg:px-6 xl:px-8">
+        <div class="flex items-center space-x-2 sm:space-x-2.5 md:space-x-3">
+          <span class="icon-document_upload sm:text-[18px] lg:text-[20px] font-medium"></span>
+          <span class="text-xs sm:text-sm font-medium whitespace-nowrap">Export Data</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-full">
+    <div class="relative">
+      <mat-tab-group animationDuration="0ms">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span class="block icon-offers text-xl"></span>
+            <span class="block pl-3">Offline Offers</span>
+          </ng-template>
+          <div class="w-full overflow-hidden pt-5">
+            <div class="flex flex-wrap items-center justify-between">
+              <strong class="text-xl lg:text-2xl whitespace-nowrap py-4 pr-2">Offline Offers</strong>
+              <form class="flex flex-wrap md:flex-nowrap items-center float-right -mx-2">
+                <div class="relative p-2">
+                  <label for="search_two"
+                    class="icon-search absolute top-1/2 -translate-y-1/2 left-6 text-lg md:text-xl text-gray_1 z-10"></label>
+                  <input type="text" (keyup)="onKeySearch($event,'offlineOffer')" name="search_two" id="search_two"
+                    class="w-full text-xs sm:text-sm text-gray_1 bg-transparent border border-gray_5 outline-none rounded-lg py-2.5 pr-5 pl-11"
+                    placeholder="Search">
+                </div>
+                <div class="relative cursor-pointer p-2">
+                  <span
+                    class="icon-filter absolute top-1/2 -translate-y-1/2 left-6 text-lg md:text-xl text-gray_1 pointer-events-none"></span>
+                  <input type="text"
+                    class="text-xs sm:text-sm text-gray_1 bg-transparent border border-gray_5 cursor-pointer outline-none rounded-lg py-2.5 pr-5 pl-11"
+                    placeholder="Filter" />
+                </div>
+              </form>
+            </div>
+            <div class="w-full" *ngIf="offlineOffersData.filteredData.length > 0">
+              <div class="w-full relative overflow-x-auto mt-8" *ngIf="offlineOffersData.filteredData.length > 0">
+                <table mat-table [dataSource]="offlineOffersData" *ngIf="offlineOffersData.filteredData.length > 0"
+                  class="mat-elevation-z8" matSort>
+
+                  <!-- Checkbox Column -->
+                  <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <mat-checkbox (change)="$event ? toggleAllOfflineOfferRows() : null"
+                        [checked]="OfflineOfferSelection.hasValue() && isAllOfflineOfferSelected()"
+                        [indeterminate]="OfflineOfferSelection.hasValue() && !isAllOfflineOfferSelected()"
+                        [aria-label]="checkboxLabelForOffineOffer()">
+                      </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                      <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? OfflineOfferSelection.toggle(row) : null"
+                        [checked]="OfflineOfferSelection.isSelected(row)"
+                        [aria-label]="checkboxLabelForOffineOffer(row)">
+                      </mat-checkbox>
+                    </td>
+                  </ng-container>
+
+                  <!-- offer_name Column -->
+                  <ng-container matColumnDef="offer_title">
+                    <th mat-header-cell *matHeaderCellDef> Offers Name </th>
+                    <td mat-cell *matCellDef="let element" class="cursor-pointer min-w-[210px]"
+                      (click)="viewOfflineOffers($event,element.id)"> {{element.offer_title}} </td>
+                  </ng-container>
+
+                  <!-- shop_name Column -->
+                  <ng-container matColumnDef="shop_name">
+                    <th mat-header-cell *matHeaderCellDef> Shop Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.shop_name}} </td>
+                  </ng-container>
+
+                  <!-- oraganizers Column -->
+                  <ng-container matColumnDef="organizers">
+                    <th mat-header-cell *matHeaderCellDef> Oraganizers </th>
+                    <td mat-cell *matCellDef="let element"> {{element.organizers}} </td>
+                  </ng-container>
+
+                  <!-- isApproved Column -->
+                  <ng-container matColumnDef="is_approved">
+                    <th mat-header-cell *matHeaderCellDef> Is Approved </th>
+                    <td mat-cell *matCellDef="let element">
+                      <div class="cursor-pointer">
+                        <mat-slide-toggle [checked]="element.is_approved" color="primary"
+                          (click)="checkedClick($event);approvedStatusOfflineOffer(element);"></mat-slide-toggle>
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <!-- status Column -->
+                  <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef> Status </th>
+                    <td mat-cell *matCellDef="let element">
+                      <div class="cursor-pointer">
+                        <mat-slide-toggle [disabled]="true" [checked]="element.status"
+                          color="primary"></mat-slide-toggle>
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <!-- actions Column -->
+                  <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let element">
+                      <div class="w-fit relative flex items-center space-x-5 z-[1]">
+                        <span class="icon-view text-gray_1 text-2xl cursor-pointer"
+                          (click)="viewOfflineOffers($event,element.id)"></span>
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="offlineDataDisplayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: offlineDataDisplayedColumns;"
+                    (click)="OfflineOfferSelection.toggle(row)">
+                  </tr>
+                </table>
+                <div *ngIf="isTableLoading"
+                  class="absolute inset-0 w-full h-full flex items-center justify-center bg-slate-300/30 backdrop-blur-sm z-10">
+                  <div class="flex flex-col items-center justify-center">
+                    <div
+                      class="w-12 h-12 rounded-full animate-spin border-4 border-solid border-primary border-t-transparent">
+                    </div>
+                    <p class="block text-base font-medium pt-2">Plase wait</p>
+                  </div>
+                </div>
+              </div>
+              <mat-paginator class="pt-5" #paginator showFirstLastButtons (page)="getOfflineOffer($event)" [length]="totalOfflineData" [pageSizeOptions]="datashowNumber" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
+            </div>
+            <div class="w-full flex justify-center p-5 mt-5" *ngIf="offlineOffersData.filteredData.length == 0">
+              <div class="max-w-8xl w-full shadow-one rounded-2xl p-10">
+                <strong class="block text-xl lg:text-2xl 2xl:text-2xl text-center">Offline Offers not found..!</strong>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span class="block icon-offers text-xl"></span>
+            <span class="block pl-3">Online Offers</span>
+          </ng-template>
+          <div class="w-full overflow-hidden pt-5">
+            <div class="flex flex-wrap items-center justify-between">
+              <strong class="text-xl lg:text-2xl whitespace-nowrap py-4 pr-2">Online Offers</strong>
+              <form class="flex flex-wrap md:flex-nowrap items-center float-right -mx-2">
+                <!-- <div class="relative cursor-pointer p-2">
+                  <button
+                    class="w-full bg-transparent border border-gray_5 cursor-pointer outline-none rounded-lg p-2.5 flex justify-center items-center">
+                    <span class="icon-add text-[18px] font-medium text-gray_1 anim"></span>
+                  </button>
+                </div> -->
+                <div class="relative cursor-pointer p-2">
+                  <label for="search_two"
+                    class="icon-search absolute top-1/2 -translate-y-1/2 left-6 text-lg md:text-xl text-gray_1 pointer-events-none z-10"></label>
+                  <input type="text" (keyup)="onKeySearch($event,'onlineOffer')" name="search_two" id="search_two"
+                    class="w-full text-xs sm:text-sm text-gray_1 bg-transparent border border-gray_5 cursor-pointer outline-none rounded-lg py-2.5 pr-5 pl-11"
+                    placeholder="Search">
+                </div>
+                <div class="relative cursor-pointer p-2">
+                  <span
+                    class="icon-filter absolute top-1/2 -translate-y-1/2 left-6 text-lg md:text-xl text-gray_1 pointer-events-none"></span>
+                  <input type="text"
+                    class="text-xs sm:text-sm text-gray_1 bg-transparent border border-gray_5 cursor-pointer outline-none rounded-lg py-2.5 pr-5 pl-11"
+                    placeholder="Filter" />
+                </div>
+              </form>
+            </div>
+            <div class="w-full">
+              <div class="w-full" *ngIf="onlineOffersData.filteredData.length > 0">
+                <div class="w-full relative overflow-x-auto mt-8">
+                  <table mat-table [dataSource]="onlineOffersData" *ngIf="onlineOffersData.filteredData.length > 0"
+                    class="mat-elevation-z8" matSort>
+
+                    <!-- Checkbox Column -->
+                    <ng-container matColumnDef="select">
+                      <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (change)="$event ? toggleAllOnlineOfferRows() : null"
+                          [checked]="onlineOfferSelection.hasValue() && isAllOnlineOfferSelected()"
+                          [indeterminate]="onlineOfferSelection.hasValue() && !isAllOnlineOfferSelected()"
+                          [aria-label]="checkboxLabelForOnlineOffer()">
+                        </mat-checkbox>
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? onlineOfferSelection.toggle(row) : null"
+                          [checked]="onlineOfferSelection.isSelected(row)"
+                          [aria-label]="checkboxLabelForOnlineOffer(row)">
+                        </mat-checkbox>
+                      </td>
+                    </ng-container>
+
+                    <!-- offer_name Column -->
+                    <ng-container matColumnDef="product_name">
+                      <th mat-header-cell *matHeaderCellDef> Product Name </th>
+                      <td mat-cell *matCellDef="let element" class="cursor-pointer min-w-[210px]"
+                        (click)="viewOnlineOffers($event,element.id)"> {{element.product_name}} </td>
+                    </ng-container>
+
+                    <!-- shop_name Column -->
+                    <ng-container matColumnDef="shop_name">
+                      <th mat-header-cell *matHeaderCellDef class="min-w-[210px]"> Shop Name </th>
+                      <td mat-cell *matCellDef="let element"> {{element.shop_name}} </td>
+                    </ng-container>
+
+                    <!-- oraganizers Column -->
+                    <ng-container matColumnDef="organizers">
+                      <th mat-header-cell *matHeaderCellDef> Oraganizers </th>
+                      <td mat-cell *matCellDef="let element"> {{element.organizers}} </td>
+                    </ng-container>
+
+                    <!-- isApproved Column -->
+                    <ng-container matColumnDef="is_approved">
+                      <th mat-header-cell *matHeaderCellDef> Is Approved </th>
+                      <td mat-cell *matCellDef="let element">
+                        <div class="cursor-pointer">
+                          <mat-slide-toggle [disabled]="false" [checked]="element.is_approved" color="primary"
+                            (click)="checkedClick($event);approvedStatusOnlineOffer(element);"></mat-slide-toggle>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                    <!-- status Column -->
+                    <ng-container matColumnDef="status">
+                      <th mat-header-cell *matHeaderCellDef> Status </th>
+                      <td mat-cell *matCellDef="let element">
+                        <div class="cursor-pointer">
+                          <mat-slide-toggle [disabled]="true" [checked]="element.status"
+                            color="primary"></mat-slide-toggle>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                    <!-- actions Column -->
+                    <ng-container matColumnDef="actions">
+                      <th mat-header-cell *matHeaderCellDef> Actions </th>
+                      <td mat-cell *matCellDef="let element">
+                        <div class="w-fit relative flex items-center space-x-5 z-[1]">
+                          <span class="icon-view text-gray_1 text-2xl cursor-pointer"
+                            (click)="viewOnlineOffers($event,element.id)"></span>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="onlineOFferesDataDisplay"></tr>
+                    <tr mat-row *matRowDef="let row; columns: onlineOFferesDataDisplay;"
+                      (click)="onlineOfferSelection.toggle(row)">
+                    </tr>
+                  </table>
+                  <div *ngIf="isTableLoading"
+                    class="absolute inset-0 w-full h-full flex items-center justify-center bg-slate-300/30 backdrop-blur-sm z-10">
+                    <div class="flex flex-col items-center justify-center">
+                      <div
+                        class="w-12 h-12 rounded-full animate-spin border-4 border-solid border-primary border-t-transparent">
+                      </div>
+                      <p class="block text-base font-medium pt-2">Plase wait</p>
+                    </div>
+                  </div>
+                </div>
+                <mat-paginator class="pt-5" #paginator showFirstLastButtons (page)="getOnlineOffer($event)" [length]="totalOnlineData" [pageSizeOptions]="datashowNumber" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
+              </div>
+              <div class="w-full flex justify-center p-5 mt-5" *ngIf="onlineOffersData.filteredData.length == 0">
+                <div class="max-w-8xl w-full shadow-one rounded-2xl p-10">
+                  <strong class="block text-xl lg:text-2xl 2xl:text-2xl text-center">Online Offers not
+                    found..!</strong>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>

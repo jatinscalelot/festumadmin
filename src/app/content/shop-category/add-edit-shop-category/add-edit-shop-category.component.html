@@ -1,0 +1,37 @@
+<div class="max-w-4xl w-full rounded-[50px] bg-white p-9">
+  <div class="flex items-center justify-between">
+    <span class="block text-32 font-semibold">{{data[1].btnName}} Shop</span>
+    <span class="block icon-add rotate-45 text-3xl font-extrabold cursor-pointer" (click)="closeDailog()"></span>
+  </div>
+  <form class="flex flex-wrap mt-9 -mx-2.5" #shopCategoryNgForm="ngForm" [formGroup]="shopCategoryForm" (ngSubmit)="onSubmitAction()">
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Name</label>
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <input type="text" matInput [formControlName]="'categoryname'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Name">
+        <mat-error class="error-message"
+        *ngIf="shopCategoryForm.get('categoryname').hasError('required') && (shopCategoryForm.get('categoryname').dirty || shopCategoryForm.get('categoryname').touched)">
+        Name is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Product Status</label>
+      <div class="flex items-center mt-[18px]">
+        <mat-slide-toggle class="block custom-slide-toggle" formControlName="status">
+          {{shopCategoryForm.get('status').value === true ? 'Active' : 'Disabled'}}
+        </mat-slide-toggle>
+      </div>
+    </div>
+    <div class="w-full p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Description</label>
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <textarea matInput name="questionText" [formControlName]="'description'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Description..."></textarea>
+        <mat-error class="error-message"
+        *ngIf="shopCategoryForm.get('description').hasError('required') && (shopCategoryForm.get('description').dirty || shopCategoryForm.get('description').touched)">
+        Description is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="flex items-center justify-center mt-4 p-2.5 mx-auto">
+      <button type="button" mat-flat-button (click)="onSubmitAction()" mat-flat-button class="block text-xs sm:text-sm font-medium whitespace-nowrap text-white hover:text-primary bg-primary hover:bg-white anim border border-primary cursor-pointer rounded-lg py-2.5 sm:py-2.5 2xl:py-3.5 px-5 md:px-8 lg:px-10 xl:px-12">{{data[1].btnName}} Shop</button>
+    </div>
+  </form>
+</div>

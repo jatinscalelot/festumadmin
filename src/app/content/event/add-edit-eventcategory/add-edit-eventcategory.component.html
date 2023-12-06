@@ -1,0 +1,43 @@
+<div class="max-w-4xl w-full rounded-[50px] bg-white p-9">
+  <div class="flex items-center justify-between">
+    <span class="block text-32 font-semibold">{{data[1].btnName}} Event Categories</span>
+    <span class="block icon-add rotate-45 text-3xl font-extrabold cursor-pointer" (click)="onClose()"></span>
+  </div>
+  <form class="flex items-center flex-wrap mt-9 -mx-2.5" #eventCategoryNgForm="ngForm" [formGroup]="eventCategoryform" (ngSubmit)="onSubmitAction()">
+    <div class="w-1/2 p-2.5 -mb-4">
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <input matInput placeholder="Category Name" formControlName="categoryname" required>
+        <mat-error class="error-message"
+          *ngIf="eventCategoryform.get('categoryname').hasError('required') && (eventCategoryform.get('categoryname').dirty || eventCategoryform.get('categoryname').touched)">
+          Category Name is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <input matInput placeholder="Event Type" formControlName="event_type" required>
+        <mat-error class="error-message"
+          *ngIf="eventCategoryform.get('event_type').hasError('required') && (eventCategoryform.get('event_type').dirty || eventCategoryform.get('event_type').touched)">
+          Event Type is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <textarea formControlName="description" placeholder="Description" matInput required></textarea>
+        <mat-error class="error-message"
+          *ngIf="eventCategoryform.get('description').hasError('required') && (eventCategoryform.get('description').dirty || eventCategoryform.get('description').touched)">
+          Description is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <mat-slide-toggle formControlName="status">IS Active</mat-slide-toggle>
+
+  </form>
+  <!-- <mat-dialog-content>
+  </mat-dialog-content> -->
+  <div class="flex items-center justify-center space-x-4 mt-4">
+    <button type="button" (click)="onSubmitAction()" [disabled]="!(eventCategoryform.valid)" class="block text-xs sm:text-sm font-medium whitespace-nowrap text-white hover:text-primary bg-primary hover:bg-white anim border border-primary cursor-pointer rounded-lg py-2.5 px-5 md:px-8">{{data[1].btnName}} Discount</button>
+    <!-- <button type="button" (click)="onClose()" [disabled]="!(eventCategoryform.valid)" class="block text-xs sm:text-sm font-medium whitespace-nowrap text-primary hover:text-white bg-white hover:bg-primary anim border border-primary cursor-pointer rounded-lg py-2.5 px-5 md:px-8">Cancle</button> -->
+  </div>
+  <!-- <button tabindex="-1" mat-flat-button class="btn-margin" (click)="onSubmitAction()"
+    [disabled]="!(eventCategoryform.valid)" color="primary">{{data[1].btnName}}</button>
+  <button tabindex="-1" mat-flat-button class="btn-margin" (click)="onClose()">Cancel</button> -->
+</div>

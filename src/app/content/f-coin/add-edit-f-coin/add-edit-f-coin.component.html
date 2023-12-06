@@ -1,0 +1,100 @@
+<div class="max-w-4xl w-full rounded-[50px] bg-white p-9">
+  <div class="flex items-center justify-between">
+    <span class="block text-32 font-semibold">Add F-Coin</span>
+    <span class="block icon-add rotate-45 text-3xl font-extrabold cursor-pointer" (click)="closeDialog()"></span>
+  </div>
+  <form class="flex flex-wrap mt-9 -mx-2.5" #fCoinNgForm="ngForm" [formGroup]="fCoinform" (ngSubmit)="onSubmitAction()">
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Transaction Id / Reference Id</label>
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <input type="text" matInput [formControlName]="'transaction_reference_id'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Transaction Id / Reference Id">
+        <mat-error class="error-message" *ngIf="fCoinform.get('transaction_reference_id').hasError('required') && (fCoinform.get('transaction_reference_id').dirty || fCoinform.get('transaction_reference_id').touched)">
+          Transaction Id / Reference Id is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Cheque No</label>
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <input type="text" matInput [formControlName]="'chequeno'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Cheque No">
+        <mat-error class="error-message" *ngIf="fCoinform.get('chequeno').hasError('required') && (fCoinform.get('chequeno').dirty || fCoinform.get('chequeno').touched)">
+        Cheque No is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Bank Name</label>
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <input type="text" matInput [formControlName]="'bank_name'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Bank Name">
+        <mat-error class="error-message" *ngIf="fCoinform.get('bank_name').hasError('required') && (fCoinform.get('bank_name').dirty || fCoinform.get('bank_name').touched)">
+        Bank Name is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">IFSC Code</label>
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <input type="text" matInput [formControlName]="'ifsc_code'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="IFSC Code">
+        <mat-error class="error-message" *ngIf="fCoinform.get('ifsc_code').hasError('required') && (fCoinform.get('ifsc_code').dirty || fCoinform.get('ifsc_code').touched)">
+        IFSC Code is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Amount</label>
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <input type="text" matInput [formControlName]="'amount'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Amount" (keyup)="calculateCoinAmount()">
+        <mat-error class="error-message" *ngIf="fCoinform.get('amount').hasError('required') && (fCoinform.get('amount').dirty || fCoinform.get('amount').touched)">
+        Amount is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Coin Amount</label>
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <input type="text" matInput [formControlName]="'coin_amount'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Coin Amount">
+        <mat-error class="error-message" *ngIf="fCoinform.get('coin_amount').hasError('required') && (fCoinform.get('coin_amount').dirty || fCoinform.get('coin_amount').touched)">
+        Coin Amount is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <span class="block text-sm font-medium text-gray_2">Choose File <small>(This can be image or pdf file(upload option))</small> </span>
+      <div class="relative flex items-center justify-center w-full h-[52px] rounded-lg overflow-hidden group mt-2.5">
+       
+        <div class="absolute inset-0 w-full flex items-center justify-center z-20">
+          <!--  [ngClass]="{'opacity-0' : selectedItemImg}" -->
+          <!-- <div class=""> -->
+            <!--  (change)="uploadItemImage($event)" -->
+            <label for="upload_type" class="cursor-pointer flex space-x-2 items-center justify-center w-full h-full inset-0 absolute">
+              <span class="icon-document_align_left text-lg text-gray_2 inline-block"></span>
+              <!-- <div class="w-fit bg-gray_4 border-2 border-dashed border-gray_2 rounded-lg py-9 px-10">
+                <span class="icon-camera text-32 text-gray_2"></span>
+              </div> -->
+              <input type="file" name="upload_type" id="upload_type" class="max-w-[120px]  whitespace-nowrap text-ellipsis" [multiple]="false" [accept]="'application/pdf,image/jpeg, image/png'">
+            </label>
+          <!-- </div> -->
+        </div>
+        <div class="w-full h-full bg-gray_4 border border-dashed border-gray_1 overflow-hidden rounded-lg relative z-[1]">
+          <!-- *ngIf="selectedItemImg" -->
+          <img class="object-cover w-full h-full">
+          <!--  [src]="constants.FEBaseImageURL + selectedItemImg" -->
+        </div>
+      </div>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Notes</label>
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <input type="text" matInput [formControlName]="'notes'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Notes">
+        <mat-error class="error-message">
+        Notes is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-full p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Description</label>
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <textarea matInput name="questionText" [formControlName]="'description'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Description..."></textarea>
+        <mat-error class="error-message">
+        Description is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="flex items-center justify-center mt-4 p-2.5 mx-auto space-x-4">
+      <button type="button" mat-flat-button  (click)="onSubmitAction()"  mat-flat-button class="block text-xs sm:text-sm font-medium whitespace-nowrap text-white hover:text-primary bg-primary hover:bg-white anim border border-primary cursor-pointer rounded-lg py-2.5 sm:py-2.5 2xl:py-3.5 px-5 md:px-8 lg:px-10 xl:px-12">Add Coin</button>
+      <button type="button" mat-flat-button  mat-flat-button class="block text-xs sm:text-sm font-medium whitespace-nowrap border border-gray_2 hover:text-white hover:bg-dark anim cursor-pointer rounded-lg py-2.5 sm:py-2.5 2xl:py-3.5 px-5 md:px-8 lg:px-10 xl:px-12" (click)="closeDialog()">Cancel</button>
+    </div>
+  </form>
+</div>

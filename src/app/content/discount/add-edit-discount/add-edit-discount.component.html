@@ -1,0 +1,64 @@
+<div class="max-w-4xl w-full rounded-[50px] bg-white p-9">
+  <div class="flex items-center justify-between">
+    <span class="block text-32 font-semibold">{{data[1].btnName}} Discount</span>
+    <span class="block icon-add rotate-45 text-3xl font-extrabold cursor-pointer" (click)="closeDailog()"></span>
+  </div>
+  <form class="flex flex-wrap mt-9 -mx-2.5" #discountNgForm="ngForm" [formGroup]="discountform" (ngSubmit)="onSubmitAction()">
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Discount Name</label>
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <input type="text" matInput [formControlName]="'discountname'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Discount Name">
+        <mat-error class="error-message"
+        *ngIf="discountform.get('discountname').hasError('required') && (discountform.get('discountname').dirty || discountform.get('discountname').touched)">
+        Discount Name is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Discount Type</label>
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <input readonly type="text" matInput [formControlName]="'discounttype'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Discount Type">
+        <mat-error class="error-message"
+        *ngIf="discountform.get('discounttype').hasError('required') && (discountform.get('discounttype').dirty || discountform.get('discounttype').touched)">
+        Discount Type is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Discount</label>
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <input type="text" matInput [formControlName]="'discount'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Discount">
+        <mat-error class="error-message"
+        *ngIf="discountform.get('discount').hasError('required') && (discountform.get('discount').dirty || discountform.get('discount').touched)">
+        Discount is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-1/2 p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Product Status</label>
+      <div class="flex items-center mt-[18px]">
+        <mat-slide-toggle class="block custom-slide-toggle" formControlName="status">
+          {{discountform.get('status').value === true ? 'Active' : 'Disabled'}}
+        </mat-slide-toggle>
+      </div>
+    </div>
+    <div class="w-full p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Description</label>
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <textarea matInput name="questionText" [formControlName]="'description'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Description..."></textarea>
+        <mat-error class="error-message"
+        *ngIf="discountform.get('description').hasError('required') && (discountform.get('description').dirty || discountform.get('description').touched)">
+        Description is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-full p-2.5 -mb-4">
+      <label for="item_name" class="block text-sm font-medium text-gray_2">Terms & Condition</label>
+      <mat-form-field class="example-full-width addDiscount w-full mt-2" appearance="outline" color="primary">
+        <textarea matInput name="questionText" [formControlName]="'tandc'" class="font-medium text-gray_3 placeholder:text-gray_3" placeholder="Terms and Condition"></textarea>
+        <mat-error class="error-message"
+        *ngIf="discountform.get('tandc').hasError('required') && (discountform.get('tandc').dirty || discountform.get('tandc').touched)">
+        Terms and Condition is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="flex items-center justify-center mt-4 p-2.5 mx-auto">
+      <button type="button" mat-flat-button (click)="onSubmitAction()" class="block text-xs sm:text-sm font-medium whitespace-nowrap text-white hover:text-primary bg-primary hover:bg-white anim border border-primary cursor-pointer rounded-lg py-2.5 sm:py-2.5 2xl:py-3.5 px-5 md:px-8 lg:px-10 xl:px-12">{{data[1].btnName}} Discount</button>
+    </div>
+  </form>
+</div>

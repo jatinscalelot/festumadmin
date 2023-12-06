@@ -1,0 +1,283 @@
+<div class="w-full h-full overflow-y-auto space-y-5 lg:space-y-7 xl:space-y-9 p-5 xl:p-8 2xl:p-10">
+  <div class="flex flex-wrap sm:flex-nowrap justify-between space-y-3 sm:space-y-0 sm:space-x-3">
+    <div class="max-w-[288px] flex flex-col w-full border border-gray_5 rounded-xl p-3.5 md:p-4 lg:p-5">
+      <div class="flex items-center justify-between">
+        <span class="block text-sm whitespace-nowrap text-gray_1 pr-1">Total F-Coin Balance</span>
+        <div class="bg-light_primary rounded-lg">
+          <span class="icon-f_coin text-sm lg:text-base w-7 md:w-8 lg:w-9 h-7 md:h-8 lg:h-9 flex items-center justify-center text-primary"></span>
+        </div>
+      </div>
+      <div class="w-full pt-4 mt-auto">
+        <span class="block text-xl md:text-22 lg:text-2xl xl:text-28 font-bold">{{totalFCoinBalance}}</span>
+        <div class="flex items-center space-x-2 mt-2">
+          <div class="flex items-center space-x-1 bg-gray_6 rounded-md p-1">
+            <span class="icon-up_arrow text-10 text-persion_green"></span>
+            <span class="block text-xs text-persion_green">16.24 %</span>
+          </div>
+          <div class="flex items-center">
+            <!-- <p-dropdown [options]="cities"></p-dropdown> -->
+            <span class="block text-sm text-gray_1">This Month</span>
+            <span class="icon-down_arrow1 text-gray_1"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-wrap sm:justify-end -mx-2">
+      <div class="p-2">
+        <div class="border border-gray_1 cursor-pointer rounded-lg py-2.5 sm:py-2.5 2xl:py-3.5 px-5 lg:px-6 xl:px-8">
+          <div class="flex items-center space-x-2 sm:space-x-2.5 md:space-x-3">
+            <span class="icon-document_upload sm:text-[18px] lg:text-[20px] font-medium"></span>
+            <span class="text-xs sm:text-sm font-medium whitespace-nowrap">Export Data</span>
+          </div>
+        </div>
+      </div>
+      <div class="p-2 group">
+        <div class="bg-primary group-hover:bg-white anim border border-primary cursor-pointer rounded-lg py-2.5 sm:py-2.5 2xl:py-3.5 px-5 lg:px-6 xl:px-8" (click)="addEditFCoin()">
+          <div class="flex items-center space-x-2 sm:space-x-2.5 md:space-x-3">
+            <span class="icon-add sm:text-[18px] lg:text-[20px] font-medium text-white group-hover:text-primary anim"></span>
+            <span class="text-xs sm:text-sm font-medium whitespace-nowrap text-white group-hover:text-primary anim">Add Coin</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-full">
+    <mat-tab-group animationDuration="0ms">
+      <mat-tab> 
+        <ng-template mat-tab-label>
+          <span class="block icon-f_coin text-xl"></span>
+          <span class="block pl-3">F-coin Added</span>
+        </ng-template>
+        <div class="w-full overflow-hidden pt-5">
+          <div class="flex flex-wrap xl:flex-nowrap items-center justify-between">
+            <strong class="text-xl lg:text-2xl whitespace-nowrap py-4 pr-2">F-Coin Added</strong>
+            <form class="flex flex-wrap md:flex-nowrap items-center float-right -mx-2">
+              <div class="relative p-2">
+                <label for="search_two"
+                  class="icon-search absolute top-1/2 -translate-y-1/2 left-6 text-lg md:text-xl text-gray_1 z-10"></label>
+                <input type="text" (keyup)="onKeySearch($event,'fCoinIn')" name="search_two" id="search_two"
+                  class="w-full text-xs sm:text-sm text-gray_1 bg-transparent border border-gray_5 outline-none rounded-lg py-2.5 pr-5 pl-11"
+                  placeholder="Search">
+              </div>
+              <div class="relative cursor-pointer p-2">
+                <span class="icon-filter absolute top-1/2 -translate-y-1/2 left-6 text-lg md:text-xl text-gray_1 pointer-events-none"></span>
+                <input type="text" class="text-xs sm:text-sm text-gray_1 bg-transparent border border-gray_5 cursor-pointer outline-none rounded-lg py-2.5 pr-5 pl-11" placeholder="Filter" />
+              </div>
+            </form>
+          </div>
+          <div class="w-full" *ngIf="fCoinInData.filteredData.length > 0">
+            <div class="w-full relative overflow-x-auto pt-8" *ngIf="fCoinInData.filteredData.length > 0">
+              <table mat-table [dataSource]="fCoinInData" class="mat-elevation-z8" matSort *ngIf="fCoinInData.filteredData.length > 0">
+
+                <!-- Checkbox Column -->
+                <ng-container matColumnDef="select">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                                  [checked]="selection.hasValue() && isAllSelected()"
+                                  [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                  [aria-label]="checkboxLabel()">
+                    </mat-checkbox>
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    <mat-checkbox (click)="$event.stopPropagation()"
+                                  (change)="$event ? selection.toggle(row) : null"
+                                  [checked]="selection.isSelected(row)"
+                                  [aria-label]="checkboxLabel(row)">
+                    </mat-checkbox>
+                  </td>
+                </ng-container>
+              
+                <!-- ref_no Column -->
+                <ng-container matColumnDef="transaction_reference_id">
+                  <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Ref No </th>
+                  <td mat-cell *matCellDef="let element" class="whitespace-nowrap"> {{element.transaction_reference_id}} </td>
+                </ng-container>
+              
+                <!-- cheque_no Column -->
+                <ng-container matColumnDef="chequeno">
+                  <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Cheque No </th>
+                  <td mat-cell *matCellDef="let element" class="whitespace-nowrap"> {{element.chequeno}} </td>
+                </ng-container>
+              
+                <!-- bank_name Column -->
+                <ng-container matColumnDef="bank_name">
+                  <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Bank Name </th>
+                  <td mat-cell *matCellDef="let element" class="whitespace-nowrap"> {{element.bank_name}} </td>
+                </ng-container>
+              
+                <!-- ifsc_no Column -->
+                <ng-container matColumnDef="ifsc_code">
+                  <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> IFSC NO </th>
+                  <td mat-cell *matCellDef="let element" class="whitespace-nowrap"> {{element.ifsc_code}} </td>
+                </ng-container>
+              
+                <!-- amount Column -->
+                <ng-container matColumnDef="amount">
+                  <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Amount </th>
+                  <td mat-cell *matCellDef="let element" class="whitespace-nowrap"> {{element.amount}} </td>
+                </ng-container>
+              
+                <!-- coin Column -->
+                <ng-container matColumnDef="coin_amount">
+                  <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Coin </th>
+                  <td mat-cell *matCellDef="let element" class="whitespace-nowrap"> {{element.coin_amount}} </td>
+                </ng-container>
+              
+                <!-- dataAndTime Column -->
+                <ng-container matColumnDef="timestamp">
+                  <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Data & Time </th>
+                  <td mat-cell *matCellDef="let element" class="whitespace-nowrap"> {{element.timestamp | date:'dd - MMM, yyyy'}} </td>
+                </ng-container>
+              
+                <!-- created_by Column -->
+                <ng-container matColumnDef="created_by">
+                  <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Created By </th>
+                  <td mat-cell *matCellDef="let element" class="whitespace-nowrap"> {{element.created_by}} </td>
+                </ng-container>
+              
+                <!-- documents Column -->
+                <ng-container matColumnDef="document_file">
+                  <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap text-center"> Documents </th>
+                  <td mat-cell *matCellDef="let element" class="whitespace-nowrap"> 
+                    <div class="flex items-center justify-center space-x-3">
+                      <!-- <span class="block icon-document_align_left text-xl font-medium cursor-pointer"></span> -->
+                      <a (click)="$event.stopPropagation();" href="{{constants.FEBaseImageURL + element.document_file}}" target="_blank" class="block text-green-500" *ngIf="element.document_file">
+                        <span class="block icon-document_align_left text-xl font-medium cursor-pointer"></span>
+                      </a>
+                      <div class="block text-red-600" *ngIf="element.document_file == ''">
+                        <span class="block icon-document_align_left text-xl font-medium cursor-pointer"></span>
+                      </div>
+                    </div> 
+                  </td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                    (click)="selection.toggle(row)">
+                </tr>
+              </table>
+              <div *ngIf="isTableLoading" class="absolute inset-0 w-full h-full flex items-center justify-center bg-slate-300/30 backdrop-blur-sm z-10">
+                <div class="flex flex-col items-center justify-center">
+                  <div
+                    class="w-12 h-12 rounded-full animate-spin border-4 border-solid border-primary border-t-transparent">
+                  </div>
+                  <p class="block text-base font-medium pt-2">Plase wait</p>
+                </div>
+              </div>
+            </div>
+            <mat-paginator class="pt-5" #paginator showFirstLastButtons (page)="getFCoinInData($event)" [length]="totalFCoinInData" [pageSizeOptions]="datashowNumber" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
+          </div>
+          <div class="w-full flex justify-center p-5 mt-5" *ngIf="fCoinInData.filteredData.length == 0">
+            <div class="max-w-8xl w-full shadow-one rounded-2xl p-10">
+              <strong class="block text-xl lg:text-2xl 2xl:text-2xl text-center">F-Coins not added..!</strong>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="block icon-f_coin text-xl"></span>
+          <span class="block pl-3">F-coin Out</span>
+        </ng-template>
+        
+        <div class="w-full overflow-hidden pt-5">
+          <div class="flex flex-wrap items-center justify-between">
+            <strong class="text-xl lg:text-2xl whitespace-nowrap py-4 pr-2">F-Coin Out</strong>
+            <form class="flex flex-wrap md:flex-nowrap items-center float-right -mx-2">
+              <div class="relative p-2">
+                <label for="search_two"
+                  class="icon-search absolute top-1/2 -translate-y-1/2 left-6 text-lg md:text-xl text-gray_1 z-10"></label>
+                <input type="text" (keyup)="onKeySearch($event,'fCoinOut')" name="search_two" id="search_two"
+                  class="w-full text-xs sm:text-sm text-gray_1 bg-transparent border border-gray_5 outline-none rounded-lg py-2.5 pr-5 pl-11"
+                  placeholder="Search">
+              </div>
+              <div class="relative cursor-pointer p-2">
+                <span class="icon-filter absolute top-1/2 -translate-y-1/2 left-6 text-lg md:text-xl text-gray_1 pointer-events-none"></span>
+                <input type="text" class="text-xs sm:text-sm text-gray_1 bg-transparent border border-gray_5 cursor-pointer outline-none rounded-lg py-2.5 pr-5 pl-11" placeholder="Filter" />
+              </div>
+            </form>
+          </div>
+          <div class="w-full" *ngIf="fCoinOutData.filteredData.length > 0">
+            <div class="w-full overflow-x-auto pt-8" *ngIf="fCoinOutData.filteredData.length > 0">
+              <table mat-table  [dataSource]="fCoinOutData" class="mat-elevation-z8" matSort *ngIf="fCoinOutData.filteredData.length > 0" class="mat-elevation-z8">
+
+                <!-- Checkbox Column -->
+                <ng-container matColumnDef="select">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (change)="$event ? toggleAllRowsForFCoinOut() : null"
+                                  [checked]="fCoinOutSelection.hasValue() && isAllSelectedForFCoinOut()"
+                                  [indeterminate]="fCoinOutSelection.hasValue() && !isAllSelectedForFCoinOut()"
+                                  [aria-label]="checkboxLabeForFCoinOut()">
+                    </mat-checkbox>
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    <mat-checkbox (click)="$event.stopPropagation()"
+                                  (change)="$event ? fCoinOutSelection.toggle(row) : null"
+                                  [checked]="fCoinOutSelection.isSelected(row)"
+                                  [aria-label]="checkboxLabeForFCoinOut(row)">
+                    </mat-checkbox>
+                  </td>
+                </ng-container>
+              
+                <!-- transaction_type Column -->
+                <ng-container matColumnDef="transaction_type">
+                  <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Transaction Type </th>
+                  <td mat-cell *matCellDef="let element" class="whitespace-nowrap"> {{element.transaction_type}} </td>
+                </ng-container>
+              
+                <!-- sender_name Column -->
+                <ng-container matColumnDef="receiver_sender_name">
+                  <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Sender / Receiver Name </th>
+                  <td mat-cell *matCellDef="let element" class="whitespace-nowrap"> {{element.receiver_sender_name}} </td>
+                </ng-container>
+              
+                <!-- refer_form Column -->
+                <ng-container matColumnDef="refer_form">
+                  <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Refer Form </th>
+                  <td mat-cell *matCellDef="let element" class="whitespace-nowrap"> {{element.refer_form}} </td>
+                </ng-container>
+              
+                <!-- refer_to Column -->
+                <ng-container matColumnDef="refer_to">
+                  <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Refer To </th>
+                  <td mat-cell *matCellDef="let element" class="whitespace-nowrap"> {{element.refer_to}} </td>
+                </ng-container>
+              
+                <!-- coin_amount Column -->
+                <ng-container matColumnDef="f_coins">
+                  <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Coin Amount </th>
+                  <td mat-cell *matCellDef="let element" class="whitespace-nowrap"> {{element.f_coins}} </td>
+                </ng-container>
+              
+                <!-- DateAndTime Column -->
+                <ng-container matColumnDef="timestamp">
+                  <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Date & Time </th>
+                  <td mat-cell *matCellDef="let element" class="whitespace-nowrap"> {{element.timestamp | date:'dd - MMM, yyyy'}} </td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayColumOfFCoinOut"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayColumOfFCoinOut;"
+                    (click)="fCoinOutSelection.toggle(row)">
+                </tr>
+              </table>
+              <div *ngIf="isTableLoading" class="absolute inset-0 w-full h-full flex items-center justify-center bg-slate-300/30 backdrop-blur-sm z-10">
+                <div class="flex flex-col items-center justify-center">
+                  <div
+                    class="w-12 h-12 rounded-full animate-spin border-4 border-solid border-primary border-t-transparent">
+                  </div>
+                  <p class="block text-base font-medium pt-2">Plase wait</p>
+                </div>
+              </div>
+            </div>
+            <mat-paginator class="pt-5" #paginator showFirstLastButtons (page)="getFCoinOutData($event)" [length]="totalFCoinOutData" [pageSizeOptions]="datashowNumber" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
+          </div>
+          <div class="w-full flex justify-center p-5 mt-5" *ngIf="fCoinOutData.filteredData.length == 0">
+            <div class="max-w-8xl w-full shadow-one rounded-2xl p-10">
+              <strong class="block text-xl lg:text-2xl 2xl:text-2xl text-center">F-Coins not Out..!</strong>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

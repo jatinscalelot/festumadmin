@@ -1,0 +1,153 @@
+<div class="w-full h-full overflow-y-auto space-y-5 lg:space-y-7 xl:space-y-9 p-5 xl:p-8 2xl:p-10">
+  <div class="flex flex-wrap xl:flex-nowrap items-start justify-between">
+    <div class="flex flex-wrap sm:flex-nowrap space-y-4 sm:space-y-0 sm:space-x-4 pb-5 mr-5">
+      <div class="max-w-[288px] w-full user_details border border-gray_5 rounded-xl space-y-4 p-3.5 md:p-4 lg:p-5">
+        <div class="flex items-center justify-between">
+          <span class="block text-sm text-gray_1 pr-2">Total Offline Shops</span>
+          <div class="bg-light_primary rounded-lg">
+            <span class="icon-coupons text-sm lg:text-base w-7 md:w-8 lg:w-9 h-7 md:h-8 lg:h-9 flex items-center justify-center text-primary"></span>
+          </div>
+        </div>
+        <div class="w-full">
+          <span class="block text-xl md:text-22 lg:text-2xl xl:text-28 font-bold">{{totalOfflineShopDataList}}</span>
+          <div class="flex items-center space-x-2 mt-2">
+            <div class="flex items-center space-x-1 bg-gray_6 rounded-md p-1">
+              <span class="icon-up_arrow text-10 text-persion_green"></span>
+              <span class="block text-xs text-persion_green">16.24 %</span>
+            </div>
+            <div class="flex items-center">
+              <span class="block text-sm text-gray_1">This Month</span>
+              <span class="icon-down_arrow1 text-gray_1"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-2">
+      <div class="border border-gray_1 cursor-pointer rounded-lg py-2.5 sm:py-2.5 2xl:py-3.5 px-5 lg:px-6 xl:px-8">
+        <div class="flex items-center space-x-2 sm:space-x-2.5 md:space-x-3">
+          <span class="icon-document_upload sm:text-[18px] lg:text-[20px] font-medium"></span>
+          <span class="text-xs sm:text-sm font-medium whitespace-nowrap">Export Data</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-full">
+    <div class="relative">
+      <div class="w-full overflow-hidden">
+        <div class="flex flex-wrap items-center justify-between">
+          <strong class="text-lg md:text-xl lg:text-2xl py-3 pr-2">Offline Shop</strong>
+          <form class="flex flex-wrap md:flex-nowrap items-center float-right -mx-2">
+            <div class="relative p-2">
+              <label for="search_two"
+                class="icon-search absolute top-1/2 -translate-y-1/2 left-6 text-lg md:text-xl text-gray_1 z-10"></label>
+              <input type="text" (keyup)="onKeySearch($event)" name="search_two" id="search_two"
+                class="w-full text-xs sm:text-sm text-gray_1 bg-transparent border border-gray_5 outline-none rounded-lg py-2.5 pr-5 pl-11"
+                placeholder="Search">
+            </div>
+            <div class="relative cursor-pointer p-2">
+              <span
+                class="icon-filter absolute top-1/2 -translate-y-1/2 left-6 text-lg md:text-xl text-gray_1 pointer-events-none"></span>
+              <input type="text"
+                class="text-xs sm:text-sm text-gray_1 bg-transparent border border-gray_5 cursor-pointer outline-none rounded-lg py-2.5 pr-5 pl-11"
+                placeholder="Filter" />
+            </div>
+          </form>
+        </div>
+        <div class="w-full" *ngIf="offlineShopData.filteredData.length > 0">
+          <div class="w-full relative overflow-x-auto mt-5 lg:mt-8" *ngIf="offlineShopData.filteredData.length > 0">
+            <table mat-table [dataSource]="offlineShopData" class="mat-elevation-z8" *ngIf="offlineShopData.filteredData.length > 0"
+              class="mat-elevation-z8" matSort>
+
+              <!-- Checkbox Column -->
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap">
+                  <mat-checkbox (change)="$event ? toggleAllOfflineShopRows() : null"
+                    [checked]="OfflineShopSelection.hasValue() && isAllOfflineShopSelected()"
+                    [indeterminate]="OfflineShopSelection.hasValue() && !isAllOfflineShopSelected()"
+                    [aria-label]="checkboxLabelForOffineShop()">
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? OfflineShopSelection.toggle(row) : null"
+                    [checked]="OfflineShopSelection.isSelected(row)" [aria-label]="checkboxLabelForOffineShop(row)">
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+
+              <!-- shop_name Column -->
+              <ng-container matColumnDef="shop_name">
+                <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Shop Name </th>
+                <td mat-cell *matCellDef="let element" (click)="viewOfflineShop($event,element.id)" class="cursor-pointer"> {{element.shop_name}} </td>
+              </ng-container>
+
+              <!-- shop_category Column -->
+              <ng-container matColumnDef="shop_category">
+                <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Shop Category </th>
+                <td mat-cell *matCellDef="let element"> {{element.shop_category}} </td>
+              </ng-container>
+
+              <!-- oraganizers Column -->
+              <ng-container matColumnDef="organizers">
+                <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Organizers </th>
+                <td mat-cell *matCellDef="let element"> {{element.organizers}} </td>
+              </ng-container>
+
+              <!-- isApproved Column -->
+              <ng-container matColumnDef="is_approved">
+                <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Is Approved </th>
+                <td mat-cell *matCellDef="let element">
+                  <div class="cursor-pointer">
+                    <mat-slide-toggle [checked]="element.is_approved" color="primary"
+                      (click)="checkedClick($event);approvedStatusOfflineShop(element);"></mat-slide-toggle>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- status Column -->
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Status </th>
+                <td mat-cell *matCellDef="let element">
+                  <div class="cursor-pointer">
+                    <mat-slide-toggle [disabled]="true" [checked]="element.status" color="primary"></mat-slide-toggle>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- actions Column -->
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef class="whitespace-nowrap"> Actions </th>
+                <td mat-cell *matCellDef="let element">
+                  <div class="w-fit relative flex items-center space-x-5 z-[1]">
+                    <span class="icon-view text-gray_1 text-2xl cursor-pointer"
+                      (click)="viewOfflineShop($event,element.id)"></span>
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="offlineShopDataDisplayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: offlineShopDataDisplayedColumns;"
+                (click)="OfflineShopSelection.toggle(row)">
+              </tr>
+            </table>
+            <div class="absolute inset-0 w-full h-full flex items-center justify-center bg-slate-300/30 backdrop-blur-sm z-10" *ngIf="isTableLoading">
+              <div class="flex flex-col items-center justify-center">
+                <div
+                  class="w-12 h-12 rounded-full animate-spin border-4 border-solid border-primary border-t-transparent">
+                </div>
+                <p class="block text-base font-medium pt-2">Plase wait</p>
+              </div>
+            </div>  
+          </div>
+          <mat-paginator class="pt-5" #paginator showFirstLastButtons (page)="getOfflineShop($event)" [length]="totalOfflineShopData" [pageSizeOptions]="datashowNumber" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
+        </div>
+        <div class="w-full flex justify-center p-5 mt-5" *ngIf="offlineShopData.filteredData.length == 0">
+          <div class="max-w-8xl w-full shadow-one rounded-2xl p-10">
+            <strong class="block text-xl lg:text-2xl 2xl:text-2xl text-center">Offline Shop not found..!</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

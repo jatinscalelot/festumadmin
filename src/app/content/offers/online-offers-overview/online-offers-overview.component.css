@@ -1,0 +1,11 @@
+
+
+::ng-deep p-rating svg.p-icon.p-rating-icon.p-rating-icon-active{
+  fill: #f5b93f !important;
+}
+::ng-deep p-rating svg.p-rating-icon{
+  fill: #2D3643 !important;
+}
+::ng-deep p-rating svg.p-icon.p-rating-icon.p-rating-icon-active path{
+  fill: inherit !important;
+}

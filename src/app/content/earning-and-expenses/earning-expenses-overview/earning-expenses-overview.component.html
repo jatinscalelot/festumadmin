@@ -1,0 +1,124 @@
+<div class="space-y-5 lg:space-y-7 xl:space-y-9">
+  <div class="flex flex-wrap items-center md:justify-end -m-2">
+    <div class="p-2">
+      <div class="border border-gray_1 rounded-lg py-2.5 sm:py-3 lg:py-3.5 px-5 lg:px-6 xl:px-8">
+        <div class="flex items-center space-x-2 sm:space-x-2.5 md:space-x-3">
+          <span class="icon-document_upload sm:text-lg lg:text-xl font-medium"></span>
+          <span class="text-xs sm:text-sm font-medium">Export Data</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-2">
+      <div class="border border-gray_1 rounded-lg py-2.5 sm:py-3 lg:py-3.5 px-5 lg:px-6 xl:px-8">
+        <div class="flex items-center space-x-2 sm:space-x-2.5 md:space-x-3">
+          <span class="icon-download sm:text-lg lg:text-xl font-medium"></span>
+          <span class="text-xs sm:text-sm font-medium">Download User Data</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-full grid grid-cols-1 x-xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5">
+    <div class="w-full user_details border border-gray_5 rounded-xl cursor-pointer space-y-4 p-3.5 md:p-4 lg:p-5" [routerLink]="'total-earning'" routerLinkActive="selected">
+      <div class="flex items-center justify-between">
+        <span class="block text-sm whitespace-nowrap text-gray_1 pr-1">Total Earnings</span>
+        <div class="bg-light_primary rounded-lg">
+          <span class="icon-user_analytics text-sm lg:text-base w-7 md:w-8 lg:w-9 h-7 md:h-8 lg:h-9 flex items-center justify-center text-primary"></span>
+        </div>
+      </div>
+      <div class="w-full">
+        <span class="block text-xl md:text-22 lg:text-2xl xl:text-28 font-bold">100k</span>
+        <div class="flex items-center space-x-2 mt-2">
+          <div class="flex items-center space-x-1 bg-gray_6 rounded-md p-1">
+            <span class="icon-up_arrow text-10 text-persion_green"></span>
+            <span class="block text-xs text-persion_green">16.24 %</span>
+          </div>
+          <div class="flex items-center">
+            <span class="block text-sm text-gray_1">This Month</span>
+            <span class="icon-down_arrow1 text-gray_1"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-full user_details border border-gray_5 rounded-xl cursor-pointer space-y-4 p-3.5 md:p-4 lg:p-5" [routerLink]="'total-expenses'" routerLinkActive="selected">
+      <div class="flex items-center justify-between">
+        <span class="block text-sm whitespace-nowrap text-gray_1 pr-1">Total Expenses</span>
+        <div class="bg-light_primary rounded-lg">
+          <span class="icon-user_analytics text-sm lg:text-base w-7 md:w-8 lg:w-9 h-7 md:h-8 lg:h-9 flex items-center justify-center text-primary"></span>
+        </div>
+      </div>
+      <div class="w-full">
+        <span class="block text-xl md:text-22 lg:text-2xl xl:text-28 font-bold">10k</span>
+        <div class="flex items-center space-x-2 mt-2">
+          <div class="flex items-center space-x-1 bg-gray_6 rounded-md p-1">
+            <span class="icon-up_arrow text-10 text-persion_green"></span>
+            <span class="block text-xs text-persion_green">16.24 %</span>
+          </div>
+          <div class="flex items-center">
+            <span class="block text-sm text-gray_1">This Month</span>
+            <span class="icon-down_arrow1 text-gray_1"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="chartjs-wrapper w-full bg-light rounded-xl border-0 p-5 sm:p-6 md:p-8 lg:p-10 mb-0">
+    <div class="flex flex-wrap items-center justify-between">
+      <strong class="text-xl lg:text-2xl whitespace-nowrap py-4 pr-2">User Reports</strong>
+      <ul class="flex flex-wrap items-center sm:space-x-3 -mx-3 mt-3 sm:mt-0">
+        <li class="flex items-center py-2 px-3">
+          <span class="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-[#058DC7] mr-1"></span>
+          <span class="text-sm sm:text-base">All Users</span>
+        </li>
+        <li class="flex items-center py-2 px-3">
+          <span class="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-[#50B432] mr-1"></span>
+          <span class="text-sm sm:text-base">New Users</span>
+        </li>
+        <li class="flex items-center py-2 px-3">
+          <span class="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-[#077597] mr-1"></span>
+          <span class="text-sm sm:text-base">Active Users</span>
+        </li>
+        <li class="flex items-center py-2 px-3">
+          <span class="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-[#634ECA] mr-1"></span>
+          <span class="text-sm sm:text-base">Inactive Users</span>
+        </li>
+      </ul>
+      <form class="">
+        <!-- implement on prime-ng calender(Range) -->
+        <div class="w-full relative cursor-pointer p-2">
+          <span class="icon-calender absolute top-1/2 -translate-y-1/2 left-4 sm:left-6 text-lg md:text-xl text-gray_1 pointer-events-none"></span>
+          <input type="date" class="w-full text-xs sm:text-sm text-gray_1 bg-transparent border border-gray_5 outline-none rounded-lg py-2.5 px-5 pl-8 pr-5 sm:px-9 md:px-11"/>
+          <span class="icon-down_arrow1 absolute top-1/2 -translate-y-1/2 right-4 text-2xl pointer-events-none"></span>
+        </div>
+      </form>
+    </div>
+    <canvas id="firstLine_chart" class="chartjs"></canvas>
+  </div>
+  <div class="w-full grid  md:grid-cols-2 2xl:grid-cols-3 gap-4 divide-x-2 divide-gray_5 bg-light rounded-xl py-8">
+    <div class="w-full px-5 xl:px-9 2xl:px-11">
+      <!-- implement on pie-chart -->
+    </div>
+    <div class="w-full px-5 xl:px-9 2xl:px-11">
+      <!-- implement on pie-chart -->
+    </div>
+    <div class="w-full px-5 xl:px-9 2xl:px-11">
+      <div class="w-full grid x-xs:grid-cols-2 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-2 gap-4 lg:gap-5 2xl:gap-x-10 gap-y-5 sm:mt-4 md:mt-6 lg:mt-8">
+        <div class="w-full">
+          <span class="block text-gray_1 text-sm">Online Users</span>
+          <strong class="block text-2xl sm:text-3xl lg:text-32 xl:text-4xl 2xl:text-44">12,423</strong>
+        </div>
+        <div class="w-full">
+          <span class="block text-gray_1 text-sm">Online Users</span>
+          <strong class="block text-2xl sm:text-3xl lg:text-32 xl:text-4xl 2xl:text-44">12,423</strong>
+        </div>
+        <div class="w-full">
+          <span class="block text-gray_1 text-sm">Online Users</span>
+          <strong class="block text-2xl sm:text-3xl lg:text-32 xl:text-4xl 2xl:text-44">12,423</strong>
+        </div>
+        <div class="w-full">
+          <span class="block text-gray_1 text-sm">Online Users</span>
+          <strong class="block text-2xl sm:text-3xl lg:text-32 xl:text-4xl 2xl:text-44">12,423</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

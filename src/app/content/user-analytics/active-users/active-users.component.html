@@ -1,0 +1,96 @@
+<div class="w-full">
+  <div class="flex flex-wrap items-center justify-between">
+    <strong class="text-xl lg:text-2xl whitespace-nowrap py-4 pr-2">Active User List</strong>
+    <form class="flex flex-wrap md:flex-nowrap items-center -mx-2">
+      <div class="relative cursor-pointer p-2">
+        <label for="search_two" class="icon-search absolute top-1/2 -translate-y-1/2 left-6 text-lg md:text-xl text-gray_1 pointer-events-none z-10"></label>
+        <input type="text" name="search_two" id="search_two" class="w-full text-xs sm:text-sm text-gray_1 bg-transparent border border-gray_5 cursor-pointer outline-none rounded-lg py-2.5 pr-5 pl-11" placeholder="Search">
+      </div>
+      <div class="relative cursor-pointer p-2">
+        <select name="users" id="users" class="w-full text-xs sm:text-sm text-gray_1 bg-transparent border border-gray_5 cursor-pointer outline-none appearance-none rounded-lg py-2.5 pl-4 pr-11">
+          <option value="mobile_user" class="text-gray_1 block p-2">Mobile Users</option>
+          <option value="web_user" class="text-gray_1 block p-2">Website Users</option>
+        </select>
+        <span class="icon-down_arrow1 absolute top-1/2 -translate-y-1/2 right-4 text-2xl pointer-events-none"></span>
+      </div>
+      <div class="relative cursor-pointer p-2">
+        <span class="icon-filter absolute top-1/2 -translate-y-1/2 left-6 text-lg md:text-xl text-gray_1 pointer-events-none"></span>
+        <input type="text" class="text-xs sm:text-sm text-gray_1 bg-transparent border border-gray_5 cursor-pointer outline-none rounded-lg py-2.5 pr-5 pl-11" placeholder="Filter"/>
+      </div>
+    </form>
+  </div>
+  <div class="w-full pt-6">
+    <div class=" overflow-x-auto">
+      <table mat-table [dataSource]="activeUserData" class="mat-elevation-z8">
+  
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef class="text-center">
+            <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row; let i = index">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)"
+                          [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+      
+        <!-- user_name Column -->
+        <ng-container matColumnDef="user_name" class="relative z-[1]">
+          <th mat-header-cell *matHeaderCellDef class="text-center whitespace-nowrap"> User Name </th>
+          <td mat-cell *matCellDef="let element; let i = index" class="whitespace-nowrap"> 
+            <div class="flex">
+              <!-- <img src="{{element.user_img}}" alt=""> -->
+              {{element.user_name}}
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- email Column -->
+        <ng-container matColumnDef="email" class="relative z-[1]">
+          <th mat-header-cell *matHeaderCellDef class="text-center whitespace-nowrap"> Email </th>
+          <td mat-cell *matCellDef="let element; let i = index" class="whitespace-nowrap"> {{element.email}} </td>
+        </ng-container>
+      
+        <!-- phone_number Column -->
+        <ng-container matColumnDef="phone_number" class="relative z-[1]">
+          <th mat-header-cell *matHeaderCellDef class="text-center whitespace-nowrap"> Phone Number </th>
+          <td mat-cell *matCellDef="let element; let i = index" class="whitespace-nowrap">{{element.phone_number}}</td>
+        </ng-container>
+
+        <!-- status Column -->
+        <ng-container matColumnDef="status" class="relative z-[1]">
+          <th mat-header-cell *matHeaderCellDef class="text-center whitespace-nowrap"> Status </th>
+          <td mat-cell *matCellDef="let element; let i = index" class="whitespace-nowrap">
+            <!-- <div class="w-fit flex items-center bg-light_green rounded-lg py-2 px-3">
+              <span class="icon-yes text-deep_green"></span>
+              <span class="block text-xs text-deep_green whitespace-nowrap pl-2">{{element.status}}</span>
+            </div> -->
+            <mat-slide-toggle [checked]="isChecked" color="primary" (click)="checkedClick($event)"></mat-slide-toggle>
+          </td>
+        </ng-container>
+
+        <!-- installed_date Column -->
+        <ng-container matColumnDef="installed_date" class="relative z-[1]">
+          <th mat-header-cell *matHeaderCellDef class="text-center whitespace-nowrap"> Installed Date </th>
+          <td mat-cell *matCellDef="let element; let i = index" class="whitespace-nowrap">{{element.installed_date}}</td>
+        </ng-container>
+
+        <!-- last_login Column -->
+        <ng-container matColumnDef="last_login" class="relative">
+          <th mat-header-cell *matHeaderCellDef class="text-center whitespace-nowrap"> Last Login </th>
+          <td mat-cell *matCellDef="let element; let i = index" class="whitespace-nowrap">{{element.last_login}}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr>
+      </table>
+    </div>
+  </div>
+</div>
