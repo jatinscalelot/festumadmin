@@ -1,8 +1,8 @@
 <main>
   <div class="w-full flex">
     <aside id="left_bar" class="fixed xl:relative inset-y-0 left-0 w-[320px] -translate-x-full xl:translate-x-0 h-screen bg-light overflow-y-auto anim z-[100] xl:z-0 p-6 pt-0">
-      <div class="sticky top-0 bg-light w-full flex items-center justify-between border-b-2 border-gray_4 pb-4 pt-6 z-10">
-        <a class="block cursor-pointer"><img src="../assets/images/svg/logo.svg" alt="Logo" class="max-w-[200px] w-full x-xs:mx-auto" /></a>
+      <div class="sticky top-0 bg-light w-full flex items-center justify-between xl:justify-center border-b-2 border-gray_4 pb-4 pt-6 z-10">
+        <a class="block cursor-pointer"><img src="../assets/images/fepl_dark_logo.svg" alt="Logo" class="max-w-[150px] lg:max-w-[175px] w-full x-xs:mx-auto" /></a>
         <span class="flex xl:hidden cursor-pointer" onclick="addActive('left_bar','-translate-x-full')">
           <i class="icon-add text-2xl font-bold -rotate-45"></i>
         </span>
@@ -11,8 +11,6 @@
         <div class="relative border border-primary rounded-full overflow-hidden">
           <mat-form-field appearance="outline" class="relative w-full text-sm font-medium bg-transparent outline-none appearance-none cursor-pointer"> 
             <mat-select [(value)]="selectProject" name="project" id="festum_evento" placeholder="Select Project" >
-              <mat-option value="festum-evento">Festum Evento</mat-option>
-              <mat-option value="evento-package">Evento Package</mat-option>
               <mat-option value="festum-evento">Festum Evento</mat-option>
               <mat-option value="evento-package">Evento Package</mat-option>
             </mat-select>
