@@ -26,7 +26,7 @@ export class AuthService {
 
   logIn(credentials: any): Observable<any> {
     return this._httpClient.post(CONSTANTS.FEAppURL + 'superadmin/login', credentials, this._globalFunctions.getHeader());
-  }
+  } 
 
   // check user is valid to access the component or not
   getUserLoggedIn() {
